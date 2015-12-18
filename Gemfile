@@ -11,6 +11,10 @@ gem 'turbolinks'
 # gem 'coffee-rails'
 gem 'jquery-rails'
 
+# 商用環境で必要
+gem 'unicorn'
+gem 'therubyracer'
+
 group :development do
   gem "erb2haml"
 end
