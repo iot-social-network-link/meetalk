@@ -1,2 +1,10 @@
 %h1 Rooms#index
 %p Find me in app/views/rooms/index.html.haml
+
+= form_tag "/casting", method: "post" do
+  = label_tag :name
+  = text_field_tag :name
+  = label_tag :gender
+  = radio_button_tag :gender, 'male', true
+  = radio_button_tag :gender, 'female'
+  = submit_tag "CAST"
