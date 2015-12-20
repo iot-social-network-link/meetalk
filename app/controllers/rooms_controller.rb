@@ -22,10 +22,11 @@ class RoomsController < ApplicationController
     end
     room.save
 
-	# User DBに情報登録
-	user = User.new(nickname:params[:name] , room_id: room.id)
-	user.save
-	
+    User.create(
+      name: params[:name],
+      gender: params[:gender],
+      room_id: room.id,
+    )
 
     redirect_to :action => "room", :id => room.id
   end
