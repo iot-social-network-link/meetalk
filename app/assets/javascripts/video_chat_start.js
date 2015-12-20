@@ -1,5 +1,5 @@
 function video_chat_start(s_room_id, a_nickname) {
-    var multiparty;
+    // var multiparty;
 
     //debug
     alert('roomid:  '+ s_room_id);
