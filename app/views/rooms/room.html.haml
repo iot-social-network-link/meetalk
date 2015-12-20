@@ -1,39 +1,12 @@
-%html
-  %head
-    :css
-      body {
-        margin: 0;
-      }
-      #message {
-        width: 190px;
-        margin: 10px;
-      }
-      #streams {
-        position: absolute;
-        top: 10px;
-        margin-left: 200px;
-      }
-      .video{
-        margin: 0px 0px 0px 5px;
-        width: 300px;
-        border: 1px solid #000000;
-        border-radius: 10px;
-      }
-      #streams .my-video {
-        -webkit-transform: scaleX(-1);
-        -o-transform: scaleX(-1);
-        -moz-transform: scaleX(-1);
-        transform: scaleX(-1);
-      }
-  %body
-    #message
-      %form
-        %input{:type => "text"}/
-        %button{:type => "submit"} send
-      %p.receive
-    #streams
-  :javascript
-    //room_id  と  a_nickname  は、rails側で動的に取得する
-    var s_room_id = 'room_id_ireru';
-    var a_nickname = ['Ako', 'Bko', 'Co', 'Do']
-    video_chat_start(s_room_id, a_nickname);
+%body
+  #message
+    %form
+      %input{:type => "text"}/
+      %button{:type => "submit"} send
+    %p.receive
+  #streams
+:javascript
+  //room_id  と  a_nickname  は、rails側で動的に取得する
+  var s_room_id = 'room_id_ireru';
+  var a_nickname = ['Ako', 'Bko', 'Co', 'Do']
+  video_chat_start(s_room_id, a_nickname);
