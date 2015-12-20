@@ -1,10 +1,9 @@
-%body
-  #message
-    %form
-      %input{:type => "text"}/
-      %button{:type => "submit"} send
-    %p.receive
-  #streams
+#message
+  %form
+    %input{:type => "text"}/
+    %button{:type => "submit"} send
+  %p.receive
+#streams
 :javascript
   //room_id  と  a_nickname  は、rails側で動的に取得する
   var s_room_id = 'room_id_ireru';
