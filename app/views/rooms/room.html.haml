@@ -1,92 +1,11 @@
-%html
-  %head
-    :css
-      body {
-        margin: 0;
-      }
-      #message {
-        width: 190px;
-        margin: 10px;
-      }
-      #streams {
-        position: absolute;
-        top: 10px;
-        margin-left: 200px;
-      }
-      .video{
-        margin: 0px 0px 0px 5px;
-        width: 300px;
-        border: 1px solid #000000;
-        border-radius: 10px;
-      }
-      #streams .my-video {
-        -webkit-transform: scaleX(-1);
-        -o-transform: scaleX(-1);
-        -moz-transform: scaleX(-1);
-        transform: scaleX(-1);
-      }
-  %body
-    #message
-      %form
-        %input{:type => "text"}/
-        %button{:type => "submit"} send
-      %p.receive
-    #streams
-  :javascript
-    var multiparty;
-    function start() {
-      // MultiParty インスタンスを生成
-      multiparty = new MultiParty( {
-        "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
-        "reliable": true,
-        "debug": 3
-      });
-      /////////////////////////////////
-      // for MediaStream
-      multiparty.on('my_ms', function(video) {
-        // 自分のvideoを表示
-        var vNode = MultiParty.util.createVideoNode(video);
-        vNode.setAttribute("class", "video my-video");
-        vNode.volume = 0;
-        $(vNode).appendTo("#streams");
-      }).on('peer_ms', function(video) {
-        console.log("video received!!")
-        // peerのvideoを表示
-        console.log(video);
-        var vNode = MultiParty.util.createVideoNode(video);
-        vNode.setAttribute("class", "video peer-video");
-        $(vNode).appendTo("#streams");
-        console.log($("#streams"))
-      }).on('ms_close', function(peer_id) {
-        // peerが切れたら、対象のvideoノードを削除する
-        $("#"+peer_id).remove();
-      })
-      ////////////////////////////////
-      // for DataChannel
-      multiparty.on('message', function(mesg) {
-        // peerからテキストメッセージを受信
-        $("p.receive").append(mesg.data + "<br>");
-      });
-      ////////////////////////////////
-      // Error handling
-      multiparty.on('error', function(err) {
-        alert(err);
-      });
-      multiparty.start();
-      //////////////////////////////////////////////////////////
-      // テキストフォームに入力されたテキストをpeerに送信
-      $("#message form").on("submit", function(ev) {
-        ev.preventDefault();  // onsubmitのデフォルト動作（reload）を抑制
-        // テキストデータ取得
-        var $text = $(this).find("input[type=text]");
-        var data = $text.val();
-        if(data.length > 0) {
-          data = data.replace(/</g, "<").replace(/>/g, ">");
-          $("p.receive").append(data + "<br>");
-          // メッセージを接続中のpeerに送信する
-          multiparty.send(data);
-          $text.val("");
-        }
-      });
-    }
-    start();
+#message
+  %form
+    %input{:type => "text"}/
+    %button{:type => "submit"} send
+  %p.receive
+#streams
+:javascript
+  //room_id  と  a_nickname  は、rails側で動的に取得する
+  var s_room_id = 'room_id_ireru';
+  var a_nickname = ['Ako', 'Bko', 'Co', 'Do']
+  video_chat_start(s_room_id, a_nickname);

@@ -2,3 +2,29 @@
   Place all the styles related to the matching controller here.
   They will automatically be included in application.css.
 */
+body {
+ margin: 0;
+}
+#message {
+ width: 190px;
+ margin: 10px;
+}
+#streams {
+ position: absolute;
+ top: 10px;
+ margin-left: 200px;
+}
+.video{
+ margin: 0px 0px 0px 5px;
+ width: 300px;
+ border: 1px solid #000000;
+ border-radius: 10px;
+}
+ 
+#streams .my-video {
+ -webkit-transform: scaleX(-1);
+ -o-transform: scaleX(-1);
+ -moz-transform: scaleX(-1);
+ transform: scaleX(-1);
+}
+
