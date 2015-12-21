@@ -8,6 +8,7 @@ gem 'uglifier'
 gem 'turbolinks'
 # gem 'coffee-rails'
 gem 'jquery-rails'
+gem 'twitter-bootstrap-rails'
 
 group :production do
   # gem 'mysql2'
