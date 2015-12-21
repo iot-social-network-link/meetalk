@@ -60,3 +60,8 @@ function video_chat_start(s_room_id, a_nickname) {
 	    }
 	});
 }
+
+function exit_video_chat(){
+  alert("Exit!!");
+  multiparty.close();
+}
