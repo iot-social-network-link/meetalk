@@ -1,15 +1,13 @@
 class RoomsController < ApplicationController
-  CAPACITY = 2
-
   def index
   end
 
   def casting
     room = nil
     if params[:gender] == 'male'
-      room = Room.find_by("male < #{CAPACITY}")
+      room = Room.find_by("male < #{Settings.room.capacity}")
     else
-      room = Room.find_by("female < #{CAPACITY}")
+      room = Room.find_by("female < #{Settings.room.capacity}")
     end
     if room.nil?
       room = Room.new(male: 0, female: 0)
