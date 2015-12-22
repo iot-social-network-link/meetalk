@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.5'
+gem 'config'            # 定数管理
 gem 'sqlite3'
 # gem 'mysql2'
 gem 'haml-rails'        # htmlテンプレート
