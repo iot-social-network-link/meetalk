@@ -4,13 +4,13 @@ class API < Grape::API
   version 'v1', :using => :path
 
   resource "users" do
-# All User Info API: http://localhost:3000/api/v1/users/room_id
+# All User Info API: http://localhost:3000/api/v1/users
     desc "returns all users"
     get do
       User.all
     end
 
-# Users in the room API: http://localhost:3000/api/v1/users/room_id
+# Users in the room API: http://localhost:3000/api/v1/users/$room_id
     desc "return a user in the room"
     params do
       requires :room_id, type: Integer
@@ -31,7 +31,8 @@ class API < Grape::API
   end
 
   resource "room_full" do
-# Room Full API: http://localhost:3000/api/v1/rooms
+
+# Room Full API: http://localhost:3000/api/v1/full_room
 	  desc "return True when four member joined in the rooom"
 	    params do
       		requires :id, type: Integer
