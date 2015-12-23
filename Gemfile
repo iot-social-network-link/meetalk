@@ -11,6 +11,7 @@ gem 'haml-rails'              # htmlテンプレート
 gem 'uglifier'                # JavaScriptの圧縮
 # gem 'coffee-rails'
 gem 'turbolinks'
+gem 'grape'					  # Restful API
 
 gem 'unicorn'
 gem 'therubyracer'
