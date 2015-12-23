@@ -10,8 +10,13 @@ function manage_mediasteam(s_roomid, s_nickname) {
 	    vNode.setAttribute("class", "video my-video");
 	    vNode.volume = 0;
 	    $(vNode).appendTo("#streams");
+	    display_timer(); // 暫定的にここで呼ぶ。本来は■でcall
 	}).on('peer_ms', function(video) {
 	    console.log("video received!!")
+	    //ユーザ情報取得APIをリクエスト
+	    //４人に見たしているか判定
+	    //display_timer(); // ■本来はここでcall
+
 	    // peerのvideoを表示
 	    var vNode = MultiParty.util.createVideoNode(video);
 	    vNode.setAttribute("class", "video peer-video");
