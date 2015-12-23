@@ -32,7 +32,7 @@ class API < Grape::API
 
   resource "room_full" do
 
-# Room Full API: http://localhost:3000/api/v1/full_room
+# Room Full API: http://localhost:3000/api/v1/full_room/$room_id
 	  desc "return True when four member joined in the rooom"
 	    params do
       		requires :id, type: Integer
