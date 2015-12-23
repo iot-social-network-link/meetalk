@@ -1,10 +1,15 @@
-%h1 Rooms#index
-%p Find me in app/views/rooms/index.html.haml
-
-= form_tag "/casting", method: "post" do
-  = label_tag :name
-  = text_field_tag :name
-  = label_tag :gender
-  = radio_button_tag :gender, 'male', true
-  = radio_button_tag :gender, 'female'
-  = submit_tag "CAST"
+%div{:class => 'row vertical-offset-100'}
+  %div{:class => 'col-md-4 col-md-offset-4'}
+    %div{:class => 'panel panel-default'}
+      %div{:class => 'panel-body'}
+        = form_tag "/casting", method: "post" do
+          = label_tag :'キャスティングを始めよう'
+          = text_field_tag :name, '', class: 'form-control', placeholder: 'ニックネーム'
+          %div{:class => 'form-group'}
+            = label_tag :gender, 'Gender', class: 'label-gender'
+            %label{:class => 'radio'}
+              %input{:type => 'radio', :name => 'radios', :value => 'male', :checked => true} male
+            %label{:class => 'radio'}
+              %input{:type => 'radio', :name => 'radios', :value => 'female', :checked => false} female
+            %br
+            = submit_tag :"CAST NOW", class: 'btn btn-lg btn-success btn-block'

@@ -1,3 +1,5 @@
+#exit_button
+  %button{:type => "submit", :onclick => "exit_video_chat()"} Exit
 #message
   %form
     %input{:type => "text"}/
@@ -6,6 +8,7 @@
 #streams
 :javascript
   //room_id  と  a_nickname  は、rails側で動的に取得する
-  var s_room_id = 'room_id_ireru';
-  var a_nickname = ['Ako', 'Bko', 'Co', 'Do']
-  video_chat_start(s_room_id, a_nickname);
+  //var multyparty;
+  var s_roomid = 'room_id_ireru';
+  var s_nickname = 'Ako'
+  video_chat_start(s_roomid, s_nickname);

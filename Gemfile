@@ -10,8 +10,9 @@ gem 'haml-rails'              # htmlテンプレート
 gem 'jquery-rails'            # jQury利用
 gem 'uglifier'                # JavaScriptの圧縮
 # gem 'coffee-rails'
+gem 'twitter-bootstrap-rails'
 gem 'turbolinks'
-gem 'grape'					  # Restful API
+gem 'grape'                   # Restful API
 
 gem 'unicorn'
 gem 'therubyracer'
