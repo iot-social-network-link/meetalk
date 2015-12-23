@@ -7,9 +7,10 @@ gem 'sqlite3'
 gem 'haml-rails'              # htmlテンプレート
 # gem 'sass-rails'
 # gem 'compass-rails'
-# gem 'jquery-rails'          # jQury利用
+gem 'jquery-rails'            # jQury利用
 gem 'uglifier'                # JavaScriptの圧縮
 # gem 'coffee-rails'
+gem 'twitter-bootstrap-rails'
 gem 'turbolinks'
 
 gem 'unicorn'
