@@ -3,7 +3,13 @@
  *  
  * ----------------------------------------------------------------- */
 
-
+function selectElm_wGender(s_gender){
+    if (s_gender == 'male'){
+	return "#streams-male"
+    }else{
+	return "#streams-female"
+    }
+}
 function select_uinfo(windowid, resp){
     for(var i=0; i<resp.length; i++){
 	var tmp = resp[i];
@@ -17,21 +23,23 @@ function select_uinfo(windowid, resp){
     }
     //objなければfalse返す
     return false;
-    
 }
 
 function addview_uinfo(uinfo){
+    /*
     //name
+    alert(uinfo['name']);
     var nameElem = document.createElement('div');
     nameElem.setAttribute("class", "peer-name");
-    nameElem.innerHTML = "pname: " + uinfo['name'];
-    $('#streams').appendTo(nameElem); //★動的に
+    nameElem.innerHTML = "pname: " + uinfo['name'];  
+    $(nameElem).appendTo("#my-video-elem"); //★動的に
     //$("#pname-" + 'windowid').appendTo(nameElem); //★動的に
     //gender
     var genElem = document.createElement('div');
     genElem.setAttribute("class", "peer-name");
     genElem.innerHTML = "pgender: " + uinfo['gender'];
-    $("#pname-" + 'windowid').appendTo(genElem); //★動的に
+    //$("#pname-" + 'windowid').appendTo(genElem); //★動的に
+    */
 }
 
 function display_uinfo(wid, roomid){
@@ -48,7 +56,7 @@ function display_uinfo(wid, roomid){
 		console.log('ajax json output');
 		var obj = select_uinfo(wid, resp);
 		console.log(obj['name']);
-		addview_uinfo(obj);
+		//addview_uinfo(obj);
 	    }
 	});
 }
