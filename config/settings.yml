@@ -1,2 +1,5 @@
 room:
   capacity: 2
+match:
+  roomid_num: 32
+  vote_time: 10

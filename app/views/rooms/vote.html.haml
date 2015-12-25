@@ -1,0 +1,7 @@
+
+= form_tag "/matching", method: "post" do
+  = label_tag :candidate
+  = radio_button_tag :candidate, @candidates[0].id
+  = radio_button_tag :candidate, @candidates[1].id
+  = hidden_field :user, :id
+  = submit_tag "submit"
