@@ -42,15 +42,18 @@ class RoomsController < ApplicationController
   end
 
   def waiting
+    user_id =  params[:user][:id]
+    Match.create(
+      my_id: user_id,
+      vote_id: params[:candidate]
+    )
 
-    # user_id =  params[:user][:id]
-    #
-    # params[:candidate]
-    #
-    #
-    # binding.pry
-    #
-    # sleep(5)
+    sleep(5)
+
+    binding.pry
+    # Match.where(vote_id: user_id)
+
+
 
 
   end
