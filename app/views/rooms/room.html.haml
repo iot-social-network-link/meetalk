@@ -1,28 +1,27 @@
 %div{:class => 'casting-background-image'}
-%div{:id  => 'video_change_button', :class => 'form-group'}
-  = label_tag :video_change, '映像ON/OFF', class: 'label-video-change'
-  %form{:name => "video_change_form"}
-    %input{:type => 'radio', :name => 'video_change', :id => "video_on", :checked => true, :onclick => "onVideoChange()"}
-    %label{:for => 'on', :class => 'switch-on'} ON
-    %input{:type => 'radio', :name => 'video_change', :id => "video_off", :checked => false, :onclick => "onVideoChange()"}
-    %label{:for => 'off', :class => 'switch-off'} OFF
+%div{:class => 'container'}
+  %div{:class => 'row'}
+    %div{:class => 'col-sm-8'}
+      #streams
+    %div{:class => 'col-sm-2 col-sm-offset-1'}
+      #room_timer
+      %div{:id  => 'video_change_button', :class => 'form-group'}
+        = label_tag :video_change, '映像ON/OFF', class: 'label-video-change'
+        %form{:name => "video_change_form"}
+          %input{:type => 'radio', :name => 'video_change', :id => "video_on", :checked => true, :onclick => "onVideoChange()"}
+          %label{:for => 'on', :class => 'switch-on'} ON
+          %input{:type => 'radio', :name => 'video_change', :id => "video_off", :checked => false, :onclick => "onVideoChange()"}
+          %label{:for => 'off', :class => 'switch-off'} OFF
+      %div{:id  => 'audio_change_button', :class => 'form-group'}
+        = label_tag :audio_change, '音声ON/OFF', class: 'label-audio-change'
+        %form{:name => "audio_change_form"}
+          %input{:type => 'radio', :name => 'audio_change', :id => "audio_on", :checked => true, :onclick => "onAudioChange()"}
+          %label{:for => 'on', :class => 'switch-on'} ON
+          %input{:type => 'radio', :name => 'audio_change', :id => "audio_off", :checked => false, :onclick => "onAudioChange()"}
+          %label{:for => 'off', :class => 'switch-off'} OFF
+      #exit_button
+        %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_video_chat()"} Exit
 
-%div{:id  => 'audio_change_button', :class => 'form-group'}
-  = label_tag :audio_change, '音声ON/OFF', class: 'label-audio-change'
-  %form{:name => "audio_change_form"}
-    %input{:type => 'radio', :name => 'audio_change', :id => "audio_on", :checked => true, :onclick => "onAudioChange()"}
-    %label{:for => 'on', :class => 'switch-on'} ON
-    %input{:type => 'radio', :name => 'audio_change', :id => "audio_off", :checked => false, :onclick => "onAudioChange()"}
-    %label{:for => 'off', :class => 'switch-off'} OFF
-
-#exit_button
-  %button{:type => "submit", :onclick => "exit_video_chat()"} Exit
-#message
-  %form
-    %input{:type => "text"}/
-    %button{:type => "submit"} send
-  %p.receive
-#streams
 :javascript
   //room_id  と  a_nickname  は、rails側で動的に取得する
   //var multyparty;
