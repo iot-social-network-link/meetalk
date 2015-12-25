@@ -29,6 +29,21 @@ class RoomsController < ApplicationController
     redirect_to :action => "room", :id => room.id
   end
 
+  def matching
+    user = User.find(params[:id])
+    room = user.room
+
+    @candidates = Array.new
+    if user.gender == 'male'
+      @candidates = room.user.where(gender: 'female')
+    else
+      @candidates = room.user.where(gender: 'male')
+    end
+  end
+
+  def message
+  end
+
   def room
   end
 end

@@ -1,0 +1,6 @@
+
+= form_tag "/message", method: "post" do
+  = label_tag :candidates
+  = radio_button_tag :candidates, @candidates[0].id
+  = radio_button_tag :candidates, @candidates[1].id
+  = submit_tag "submit"

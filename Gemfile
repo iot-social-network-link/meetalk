@@ -19,6 +19,7 @@ gem 'therubyracer'
 
 group :development do
   gem "better_errors"         # エラー画面の改良
+  gem 'binding_of_caller'     # エラー画面にpry表示
   gem 'pry-rails'             # pry利用
   gem 'pry-byebug'            # pryでデバッグコマンドが可能
   gem 'hirb'                  # SQLの結果を整形
