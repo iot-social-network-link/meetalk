@@ -8,8 +8,8 @@
           %div{:class => 'form-group'}
             = label_tag :gender, 'Gender', class: 'label-gender'
             %label{:class => 'radio'}
-              %input{:type => 'radio', :name => 'radios', :value => 'male', :checked => true} male
+              %input{:type => 'radio', :name => 'gender', :value => 'male', :checked => true} male
             %label{:class => 'radio'}
-              %input{:type => 'radio', :name => 'radios', :value => 'female', :checked => false} female
+              %input{:type => 'radio', :name => 'gender', :value => 'female', :checked => false} female
             %br
             = submit_tag :"CAST NOW", class: 'btn btn-lg btn-success btn-block'
