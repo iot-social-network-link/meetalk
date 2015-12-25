@@ -75,13 +75,12 @@ function exit_video_chat(){
 // 映像ON／OFF機能
 function onVideoChange(){
   video_check_on = document.video_change_form.video_on.checked;
-  video_check_off = document.video_change_form.video_off.checked;
 
   if (video_check_on == true){
-    alert("映像ON");
+    console.log("映像ON");
     multiparty.unmute({"video": true});
   } else {
-    alert("映像OFF");
+    console.log("映像OFF");
     multiparty.mute({"video": true});
   }
 }
@@ -89,13 +88,12 @@ function onVideoChange(){
 // 音声ON／OFF機能
 function onAudioChange(){
   audio_check_on = document.audio_change_form.audio_on.checked;
-  audio_check_off = document.audio_change_form.audio_off.checked;
 
   if (audio_check_on == true){
-    alert("音声ON");
+    console.log("音声ON");
     multiparty.unmute({"audio": true});
   } else {
-    alert("音声OFF");
+    console.log("音声OFF");
     multiparty.mute({"audio": true});
   }
 }
