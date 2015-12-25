@@ -23,22 +23,36 @@ class RoomsController < ApplicationController
     User.create(
       name: params[:name],
       gender: params[:gender],
-      room_id: room.id,
+      room_id: room.id
     )
 
     redirect_to :action => "room", :id => room.id
   end
 
   def matching
-    user = User.find(params[:id])
-    room = user.room
+    @user = User.find(params[:id])
+    room = @user.room
 
     @candidates = Array.new
-    if user.gender == 'male'
+    if @user.gender == 'male'
       @candidates = room.user.where(gender: 'female')
     else
       @candidates = room.user.where(gender: 'male')
     end
+  end
+
+  def waiting
+
+    # user_id =  params[:user][:id]
+    #
+    # params[:candidate]
+    #
+    #
+    # binding.pry
+    #
+    # sleep(5)
+
+
   end
 
   def message

@@ -1,6 +1,7 @@
 
-= form_tag "/message", method: "post" do
-  = label_tag :candidates
-  = radio_button_tag :candidates, @candidates[0].id
-  = radio_button_tag :candidates, @candidates[1].id
+= form_tag "/waiting", method: "post" do
+  = label_tag :candidate
+  = radio_button_tag :candidate, @candidates[0].id
+  = radio_button_tag :candidate, @candidates[1].id
+  = hidden_field :user, :id
   = submit_tag "submit"
