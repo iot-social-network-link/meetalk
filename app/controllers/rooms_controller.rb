@@ -55,8 +55,8 @@ class RoomsController < ApplicationController
     # 投票待ち
     sleep(Settings.match.vote_time)
 
-    match2 = Match.where(my_id: vote_id, vote_id: my_id)
-    if match2.empty?
+    match2 = Match.find_by(my_id: vote_id, vote_id: my_id)
+    if match2.nil?
       # not match
       redirect_to :action => "index"
     else
