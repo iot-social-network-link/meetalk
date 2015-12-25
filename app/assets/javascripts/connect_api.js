@@ -26,10 +26,10 @@ function select_uinfo(windowid, resp){
 }
 
 function addview_uinfo(uinfo){
-    /*
+    //alert(uinfo['name']);
+    
     //name
-    alert(uinfo['name']);
-    var nameElem = document.createElement('div');
+        var nameElem = document.createElement('div');
     nameElem.setAttribute("class", "peer-name");
     nameElem.innerHTML = "pname: " + uinfo['name'];  
     $(nameElem).appendTo("#my-video-elem"); //★動的に
@@ -38,8 +38,7 @@ function addview_uinfo(uinfo){
     var genElem = document.createElement('div');
     genElem.setAttribute("class", "peer-name");
     genElem.innerHTML = "pgender: " + uinfo['gender'];
-    //$("#pname-" + 'windowid').appendTo(genElem); //★動的に
-    */
+    //$(genElem).appendTo("#my-vieo-elem"); //★動的に  //error
 }
 
 function display_uinfo(wid, roomid){
@@ -56,7 +55,7 @@ function display_uinfo(wid, roomid){
 		console.log('ajax json output');
 		var obj = select_uinfo(wid, resp);
 		console.log(obj['name']);
-		//addview_uinfo(obj);
+		addview_uinfo(obj);
 	    }
 	});
 }

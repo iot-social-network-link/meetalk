@@ -8,14 +8,14 @@ function manage_mediasteam(s_roomid, s_nickname, s_gender) {
 	    // 名前枠を追加
 	    // 自分のvideoを表示
 	    var myVideoElem = document.createElement('div');
-	    //myVideoElem.setAttribute("id", "my-video-elem");
-	    //$(myVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
+	    myVideoElem.setAttribute("id", "my-video-elem");
+	    $(myVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
 	    var vNode = MultiParty.util.createVideoNode(video);
 	    vNode.setAttribute("class", "video my-video");
 	    vNode.volume = 0;
 	    $(vNode).appendTo(selectElm_wGender(s_gender)); //"#streams"
 	    display_timer(); // 暫定的にここで呼ぶ。本来は■でcall
-            //display_uinfo('1', '1'); // wid, roomid
+            display_uinfo('1', '1'); // wid, roomid
 	}).on('peer_ms', function(video) {
 	    console.log("video received!!")
 	    //ユーザ情報取得APIをリクエスト
