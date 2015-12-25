@@ -29,7 +29,7 @@ class RoomsController < ApplicationController
     redirect_to :action => "room", :id => room.id
   end
 
-  def matching
+  def vote
     @user = User.find(params[:id])
     room = @user.room
 
@@ -41,21 +41,29 @@ class RoomsController < ApplicationController
     end
   end
 
-  def waiting
-    user_id =  params[:user][:id]
-    Match.create(
-      my_id: user_id,
-      vote_id: params[:candidate]
+  def matching
+    my_id = params[:user][:id]
+    vote_id = params[:candidate]
+    room_id = ((0..9).to_a + ("a".."z").to_a + ("A".."Z").to_a).sample(Settings.match.roomid_num).join
+
+    match1 = Match.create(
+      my_id: my_id,
+      vote_id: vote_id,
+      room_id: room_id
     )
 
-    sleep(5)
+    # 投票待ち
+    sleep(Settings.match.vote_time)
 
-    binding.pry
-    # Match.where(vote_id: user_id)
-
-
-
-
+    match2 = Match.where(my_id: vote_id, vote_id: my_id)
+    if match2.empty?
+      # not match
+      redirect_to :action => "index"
+    else
+      # match
+      room_id = (my_id > vote_id) ? match1.room_id : match2.room_id
+      redirect_to :action => "message", :id => room_id
+    end
   end
 
   def message
