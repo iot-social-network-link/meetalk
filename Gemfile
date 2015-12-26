@@ -12,8 +12,8 @@ gem 'uglifier'                # JavaScriptの圧縮
 # gem 'coffee-rails'
 gem 'twitter-bootstrap-rails'
 gem 'turbolinks'
+gem 'gon'                     # JavaScript連携
 gem 'grape'                   # Restful API
-
 gem 'unicorn'
 gem 'therubyracer'
 

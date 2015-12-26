@@ -20,13 +20,17 @@ class RoomsController < ApplicationController
     end
     room.save
 
-    User.create(
+    user = User.create(
       name: params[:name],
       gender: params[:gender],
       room_id: room.id
     )
 
-    redirect_to :action => "room", :id => room.id
+    redirect_to :action => "room", :id => user.id
+  end
+
+  def room
+    gon.user = User.find(params[:id])
   end
 
   def vote
@@ -67,8 +71,5 @@ class RoomsController < ApplicationController
   end
 
   def message
-  end
-
-  def room
   end
 end

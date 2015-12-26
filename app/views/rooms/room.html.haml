@@ -24,9 +24,5 @@
         %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_video_chat()"} Exit
 
 :javascript
-  //room_id  と  a_nickname  は、rails側で動的に取得する
   //var multyparty;
-  var s_roomid = '1';
-  var s_name = 'female1'
-  var s_gender = 'female'
-  video_chat_start(s_roomid, s_name, s_gender);
+  video_chat_start(gon.room_id, gon.user.name, gon.user.gender);
