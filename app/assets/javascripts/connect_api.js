@@ -27,18 +27,10 @@ function select_uinfo(windowid, resp){
 
 function addview_uinfo(uinfo){
     //alert(uinfo['name']);
-    
-    //name
-        var nameElem = document.createElement('div');
+    var nameElem = document.createElement('div');
     nameElem.setAttribute("class", "peer-name");
-    nameElem.innerHTML = "pname: " + uinfo['name'];  
-    $(nameElem).appendTo("#my-video-elem"); //★動的に
-    //$("#pname-" + 'windowid').appendTo(nameElem); //★動的に
-    //gender
-    var genElem = document.createElement('div');
-    genElem.setAttribute("class", "peer-name");
-    genElem.innerHTML = "pgender: " + uinfo['gender'];
-    //$(genElem).appendTo("#my-vieo-elem"); //★動的に  //error
+    nameElem.innerHTML = "pname: " + uinfo['name'] + '<br>' + "pgender: " + uinfo['gender'];
+    $(nameElem).appendTo("#peer-video-uinfo-" + uinfo['wid']); //★動的に
 }
 
 function display_uinfo(wid, roomid){

@@ -3,32 +3,40 @@
  *
  * ----------------------------------------------------------------- */
 
-function manage_mediasteam(s_roomid, s_nickname, s_gender) {
+function manage_mediasteam(s_roomid, s_name, s_gender) {
     multiparty.on('my_ms', function(video) {
 	    // 名前枠を追加
-	    // 自分のvideoを表示
 	    var myVideoElem = document.createElement('div');
-	    myVideoElem.setAttribute("id", "my-video-elem");
+	    myVideoElem.setAttribute("id", 'my-video-uinfo'); //★ 動的にwid入れる
+	    myVideoElem.innerHTML = 'name:  ' + s_name + '<br>gen: ' + s_gender;
 	    $(myVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
+	    // 2. wid登録処理
+	    //resist_wid();
+	    // 自分のvideoを表示
 	    var vNode = MultiParty.util.createVideoNode(video);
 	    vNode.setAttribute("class", "video my-video");
 	    vNode.volume = 0;
 	    $(vNode).appendTo(selectElm_wGender(s_gender)); //"#streams"
 	    display_timer(); // 暫定的にここで呼ぶ。本来は■でcall
-            display_uinfo('1', '1'); // wid, roomid
+
 	}).on('peer_ms', function(video) {
 	    console.log("video received!!")
-	    //ユーザ情報取得APIをリクエスト
-	    //４人に見たしているか判定
+	    //check_fullroom(); ４人に見たしているか判定
 	    //display_timer(); // ■本来はここでcall
-
 	    // peerのvideoを表示
 	    var vNode = MultiParty.util.createVideoNode(video);
 	    vNode.setAttribute("class", "video peer-video");
 	    $(vNode).appendTo("#streams");
-	    console.log($("#streams"))
+	    // 名前枠を追加
+	    var pVideoElem = document.createElement('div');
+	    pVideoElem.setAttribute("id", 'peer-video-uinfo-'+ '1'); //★ 動的にwid入れる
+	    $(pVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
+	    // 1. get peer uinfo
+            display_uinfo('1', '1'); // wid, roomid
+
 	}).on('ms_close', function(peer_id) {
 	    // peerが切れたら、対象のvideoノードを削除する
+	    // 3. delete_user(); //ブラウザを閉じた場合はexit関数で処理されない
 	    $("#"+peer_id).remove();
 	})
 
@@ -77,6 +85,7 @@ function video_chat_start(s_roomid, s_name, s_gender) {
 function exit_video_chat(){
     console.log("Exit!!");
     multiparty.close();
+    // 3. delete_user();
     var top_url = "http://" + location.host;
     console.log(top_url);
     location.href=top_url; //redirect to top.
