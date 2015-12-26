@@ -1,6 +1,6 @@
 %div{:class => 'login-background-image'}
-%div{:class => 'row vertical-offset-100'}
-  %div{:class => 'col-md-4 col-md-offset-4'}
+%div{:class => 'row vertical-offset panel-animate'}
+  %div{:class => 'col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3'}
     %div{:class => 'panel panel-default'}
       %div{:class => 'panel-body'}
         = form_tag "/casting", method: "post" do
@@ -14,3 +14,9 @@
               %input{:type => 'radio', :name => 'gender', :value => 'female', :checked => false} female
             %br
             = submit_tag :"CAST NOW", class: 'btn btn-lg btn-success btn-block'
+:javascript
+    $(function(){
+      $('.panel-animate').animate({
+        'opacity' : '1.0', 'padding-top' : '100px'
+      },1000);
+    });
