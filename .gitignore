@@ -22,3 +22,4 @@ config/environments/*.local.yml
 
 /.bundle
 /vendor/bundle
+/gitflow

@@ -3,6 +3,21 @@ class API < Grape::API
 
   version 'v1', :using => :path
 
+  resource "user" do
+	  # Register window_id on User Table: http://localhost:3000/api/v1/user
+	  # Try below command on your terminal. if you get result true, it must be sccuess
+	  # $ curl -X PUT http://localhost:3000/api/v1/user/1 -d "window_id=test2;"
+	  #
+  desc "Register window_id to User"
+    params do
+     requires :user_id, type: Integer
+     requires :window_id, type: String
+    end
+    put ':user_id' do
+	  User.find( params[:user_id] ).update(window_id: params[:window_id])
+	end
+  end
+
   resource "users" do
     # All User Info API: http://localhost:3000/api/v1/users
     desc "returns all users"
