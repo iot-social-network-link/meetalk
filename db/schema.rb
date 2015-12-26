@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151225153553) do
+ActiveRecord::Schema.define(version: 20151226061745) do
 
   create_table "matches", force: :cascade do |t|
     t.integer  "my_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20151225153553) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "gender"
+    t.string   "window_id"
   end
 
 end
