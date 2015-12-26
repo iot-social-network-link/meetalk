@@ -3,27 +3,56 @@
  *
  * ----------------------------------------------------------------- */
 
-function manage_mediasteam(s_roomid, s_nickname) {
-    multiparty.on('my_ms', function(video) {
-	    // 自分のvideoを表示
-	    var vNode = MultiParty.util.createVideoNode(video);
-	    vNode.setAttribute("class", "video my-video");
-	    vNode.volume = 0;
-	    $(vNode).appendTo("#streams");
-	    display_timer(); // 暫定的にここで呼ぶ。本来は■でcall
-	}).on('peer_ms', function(video) {
-	    console.log("video received!!")
-	    //ユーザ情報取得APIをリクエスト
-	    //４人に見たしているか判定
-	    //display_timer(); // ■本来はここでcall
+//自分が入室したときの処理
+function proc_myms(video, s_name, s_gender){
+    console.log('myvideo obj:');
+    console.log(video);
+    // 3. resist wid
+    //resist_wid();
 
-	    // peerのvideoを表示
-	    var vNode = MultiParty.util.createVideoNode(video);
-	    vNode.setAttribute("class", "video peer-video");
-	    $(vNode).appendTo("#streams");
-	    console.log($("#streams"))
+    // 自分のvideoを表示
+    var vNode = MultiParty.util.createVideoNode(video);
+    vNode.setAttribute("class", "video my-video");
+    vNode.volume = 0;
+    $(vNode).appendTo(selectElm_wGender(s_gender)); //"#streams"
+    // 名前枠を追加
+    var myVideoElem = document.createElement('div');
+    myVideoElem.setAttribute("id", 'my-video-uinfo'); //★ 動的にwid入れる
+    myVideoElem.innerHTML = 'name:  ' + s_name + '<br>gen: ' + s_gender;
+    $(myVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
+    
+}
+//他人が入室したときの処理
+function peer_myms(roomid, video){
+    // ユーザ枠を追加: <div id = "peer-video-uinfo-[windowid]">
+    var pVideoElem = document.createElement('div');
+    pVideoElem.setAttribute("id", 'peer-video-uinfo-'+ video['id']);
+    console.log('peer video obj:');
+    console.log(video);
+    $(pVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
+
+    // peerのvideoを表示
+    var vNode = MultiParty.util.createVideoNode(video);
+    vNode.setAttribute("class", "video peer-video");
+    $(vNode).appendTo(pVideoElem); 
+
+    // 1. get peer uinfo
+    display_uinfo(video['id'], roomid); // wid, roomid
+    // 2. check fullroom API
+    check_fullroom(roomid); // roomid ■動的に //call display_timer();
+}
+
+
+function manage_mediasteam(s_roomid, s_name, s_gender) {
+    multiparty.on('my_ms', function(video) {
+	    proc_myms(video, s_name, s_gender); //自分入室時の処理
+
+	}).on('peer_ms', function(video) {
+	    peer_myms(s_roomid, video); //自分入室時の処理
+
 	}).on('ms_close', function(peer_id) {
 	    // peerが切れたら、対象のvideoノードを削除する
+	    // 4. delete_user(); //ブラウザを閉じた場合はexit関数で処理されない
 	    $("#"+peer_id).remove();
 	})
 
@@ -55,7 +84,7 @@ function manage_message(){
 }
 
 //先に、manage_***()の定義が必要
-function video_chat_start(s_roomid, s_nickname) {
+function video_chat_start(s_roomid, s_name, s_gender) {
     multiparty = new MultiParty( {
 	    "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
 	    "reliable": true,
@@ -65,13 +94,14 @@ function video_chat_start(s_roomid, s_nickname) {
     manage_message();
     // サーバとpeerに接続
     multiparty.start();
-    manage_mediasteam(s_roomid, s_nickname);
+    manage_mediasteam(s_roomid, s_name, s_gender);
 }
 
 // Exit機能
 function exit_video_chat(){
     console.log("Exit!!");
     multiparty.close();
+    // 4. delete_user();
     var top_url = "http://" + location.host;
     console.log(top_url);
     location.href=top_url; //redirect to top.

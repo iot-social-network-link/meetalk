@@ -6,7 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
 User.create(name: 'user01', room_id: 1, gender: 'male')
 User.create(name: 'user02', room_id: 1, gender: 'male')
 User.create(name: 'user03', room_id: 1, gender: 'female')
