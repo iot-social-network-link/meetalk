@@ -64,8 +64,8 @@ function display_uinfo(wid, roomid){
 // ------------------------------------
 function check_fullroom(roomid){
     // APIにアクセス
-    //    var api_url = '/api/v1/room_full/' + roomid + '.json';
-    var api_url = '/api/v1/room_full/1.json'; //暫定的に
+    var api_url = '/api/v1/room_full/' + roomid + '.json';
+    //var api_url = '/api/v1/room_full/1.json'; //暫定的に
     console.log('api connect: url=' + api_url);
     $.ajax({
 	    type: "GET",

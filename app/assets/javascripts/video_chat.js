@@ -23,10 +23,10 @@ function proc_myms(video, s_name, s_gender){
     
 }
 //他人が入室したときの処理
-function peer_myms(video){
+function peer_myms(roomid, video){
     // ユーザ枠を追加: <div id = "peer-video-uinfo-[windowid]">
     var pVideoElem = document.createElement('div');
-    pVideoElem.setAttribute("id", 'peer-video-uinfo-'+ video['id']); //★ 動的にwid入れる
+    pVideoElem.setAttribute("id", 'peer-video-uinfo-'+ video['id']);
     console.log('peer video obj:');
     console.log(video);
     $(pVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
@@ -37,9 +37,9 @@ function peer_myms(video){
     $(vNode).appendTo(pVideoElem); 
 
     // 1. get peer uinfo
-    display_uinfo(video['id'], '1'); // wid, roomid
+    display_uinfo(video['id'], roomid); // wid, roomid
     // 2. check fullroom API
-    check_fullroom('1'); // roomid ■動的に //call display_timer();
+    check_fullroom(roomid); // roomid ■動的に //call display_timer();
 }
 
 
@@ -48,7 +48,7 @@ function manage_mediasteam(s_roomid, s_name, s_gender) {
 	    proc_myms(video, s_name, s_gender); //自分入室時の処理
 
 	}).on('peer_ms', function(video) {
-	    peer_myms(video); //自分入室時の処理
+	    peer_myms(s_roomid, video); //自分入室時の処理
 
 	}).on('ms_close', function(peer_id) {
 	    // peerが切れたら、対象のvideoノードを削除する
