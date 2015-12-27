@@ -36,6 +36,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.4.0)
     arel (6.0.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -49,6 +50,14 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (8.2.1)
+    capybara (2.5.0)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
+    childprocess (0.5.8)
+      ffi (~> 1.0, >= 1.0.11)
     choice (0.2.0)
     code_analyzer (0.4.5)
       sexp_processor
@@ -68,6 +77,7 @@ GEM
     config (1.0.0)
       activesupport (>= 3.0)
       deep_merge (~> 1.0.0)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     deep_merge (1.0.1)
     descendants_tracker (0.0.4)
@@ -78,6 +88,14 @@ GEM
       html2haml
     erubis (2.7.0)
     execjs (2.6.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
+    faker (1.6.1)
+      i18n (~> 0.5)
+    ffi (1.9.10)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     gon (6.0.1)
@@ -118,6 +136,8 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.3)
     kgio (2.10.0)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     less (2.6.0)
       commonjs (~> 0.2.7)
     less-rails (2.7.0)
@@ -197,10 +217,6 @@ GEM
     ref (2.0.0)
     request_store (1.2.1)
     require_all (1.3.3)
-    rspec (3.4.0)
-      rspec-core (~> 3.4.0)
-      rspec-expectations (~> 3.4.0)
-      rspec-mocks (~> 3.4.0)
     rspec-core (3.4.1)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -217,11 +233,18 @@ GEM
       rspec-expectations (~> 3.4.0)
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
+    rspec-request_describer (0.1.0)
     rspec-support (3.4.1)
     ruby-graphviz (1.2.2)
     ruby-progressbar (1.7.5)
     ruby_parser (3.7.2)
       sexp_processor (~> 4.1)
+    rubyzip (1.1.7)
+    selenium-webdriver (2.48.1)
+      childprocess (~> 0.5)
+      multi_json (~> 1.0)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0)
     sexp_processor (4.6.0)
     slop (3.6.0)
     sprockets (3.5.2)
@@ -259,6 +282,9 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
+    websocket (1.2.2)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
@@ -266,20 +292,26 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  capybara
   config
+  database_cleaner
   erb2haml
+  factory_girl_rails
+  faker
   gon
   grape
   haml-rails
   hirb
   jquery-rails
+  launchy
   pry-byebug
   pry-rails
   rails (= 4.2.5)
   rails-erd
   rails_best_practices
-  rspec
   rspec-rails
+  rspec-request_describer
+  selenium-webdriver
   sqlite3
   therubyracer
   turbolinks

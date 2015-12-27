@@ -17,7 +17,7 @@ gem 'grape'                   # Restful API
 gem 'unicorn'
 gem 'therubyracer'
 
-group :development do
+group :development, :test do
   gem "better_errors"         # エラー画面の改良
   gem 'binding_of_caller'     # エラー画面にpry表示
   gem 'pry-rails'             # pry利用
@@ -26,9 +26,16 @@ group :development do
   gem 'erb2haml'              # .erbを.hamlに変換
   gem 'rails-erd'             # モデルのER図を出力
   gem 'rails_best_practices'  # ベストプラクティスのチェック
+
+  gem 'rspec-rails'
+  gem 'rspec-request_describer'
+  gem 'factory_girl_rails'
 end
 
 group :test do
-  gem 'rspec'
-  gem 'rspec-rails'
+  gem "faker"
+  gem "capybara"
+  gem "database_cleaner"
+  gem "launchy"
+  gem "selenium-webdriver"
 end
