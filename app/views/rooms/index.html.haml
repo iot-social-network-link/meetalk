@@ -4,8 +4,8 @@
     %div{:class => 'panel panel-default'}
       %div{:class => 'panel-body'}
         - if @user.present? and @user.errors.any?
-          - @user.errors.full_messages.each do |message|
-            %p= message
+          - @user.errors.full_messages.each do |msg|
+            %p= msg
         = form_tag "/casting", method: "post" do
           = label_tag :'キャスティングを始めよう'
           = text_field_tag :name, '', class: 'form-control', placeholder: 'ニックネーム'
