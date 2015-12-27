@@ -4,13 +4,17 @@ class RoomsController < ApplicationController
 
   def casting
     room = Room.casting(params[:gender])
-    user = User.create(
+    @user = User.new(
       name: params[:name],
       gender: params[:gender],
       room_id: room.id
     )
 
-    redirect_to :action => "room", :id => user.id
+    if @user.save
+      redirect_to :action => "room", :id => @user.id
+    else
+      render :index
+    end
   end
 
   def room
