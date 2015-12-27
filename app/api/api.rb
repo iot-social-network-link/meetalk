@@ -15,7 +15,12 @@ class API < Grape::API
      requires :window_id, type: String
     end
     put ':user_id' do
-	  User.find( params[:user_id] ).update(window_id: params[:window_id])
+	  if User.find_by(id: params[:user_id])
+	     User.find_by(id: params[:user_id]).update(window_id: params[:window_id])
+		 {result: true}
+	  else
+         {result: false}
+      end
 	end
   end
 
