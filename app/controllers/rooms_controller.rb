@@ -20,11 +20,11 @@ class RoomsController < ApplicationController
     end
     room.save
 
-    user = User.create(
+    user = room.user.new(
       name: params[:name],
-      gender: params[:gender],
-      room_id: room.id
+      gender: params[:gender]
     )
+    user.save
 
     redirect_to :action => "room", :id => user.id
   end
