@@ -56,11 +56,11 @@ class API < Grape::API
 		requires :room_id, type: Integer
 	end
 	get ':window_id' do
-		if params[:room_id]
+	  unless User.where(window_id: params[:window_id]).where(room_id: params[:room_id]).empty?
          User.where(window_id: params[:window_id]).where(room_id: params[:room_id])
-		else
-         User.where(window_id: params[:window_id])
-		end
+	  else
+        { result: false }
+	  end
 	end
   end
 
