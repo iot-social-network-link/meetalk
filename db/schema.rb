@@ -11,30 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151226061745) do
+ActiveRecord::Schema.define(version: 20151227094416) do
 
   create_table "matches", force: :cascade do |t|
-    t.integer  "my_id"
-    t.integer  "vote_id"
-    t.string   "room_id"
+    t.integer  "my_id",      null: false
+    t.integer  "vote_id",    null: false
+    t.string   "room_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "matches", ["room_id"], name: "index_matches_on_room_id"
+
   create_table "rooms", force: :cascade do |t|
-    t.integer  "male"
-    t.integer  "female"
+    t.integer  "male",       null: false
+    t.integer  "female",     null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "room_id",    null: false
+    t.string   "name",       null: false
+    t.string   "gender",     null: false
+    t.string   "room_id",    null: false
+    t.string   "window_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "gender"
-    t.string   "window_id"
   end
+
+  add_index "users", ["room_id"], name: "index_users_on_room_id"
 
 end
