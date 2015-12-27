@@ -286,6 +286,3 @@ DEPENDENCIES
   twitter-bootstrap-rails
   uglifier
   unicorn
-
-BUNDLED WITH
-   1.10.6
