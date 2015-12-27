@@ -4,6 +4,8 @@ class RoomsController < ApplicationController
 
   def casting
     room = Room.casting(params[:gender])
+    render :index unless room.save
+
     @user = User.new(
       name: params[:name],
       gender: params[:gender],
