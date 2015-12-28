@@ -1,7 +1,11 @@
 class RoomsController < ApplicationController
+  before_action :set_user, only: [:room, :vote]
+
+  # GET /
   def index
   end
 
+  # POST /casting
   def casting
     room = nil
     if params[:gender] == 'male'
@@ -20,31 +24,33 @@ class RoomsController < ApplicationController
     end
     room.save
 
-    user = room.user.new(
+    @user = room.users.new(
       name: params[:name],
       gender: params[:gender]
     )
-    user.save
+    @user.save
 
-    redirect_to :action => "room", :id => user.id
+    redirect_to :action => "room", :id => @user.id
   end
 
+  # GET /room/1
   def room
-    gon.user = User.find(params[:id])
+    gon.user = @user
   end
 
+  # GET /vote/1
   def vote
-    @user = User.find(params[:id])
     room = @user.room
 
     @candidates = Array.new
     if @user.gender == 'male'
-      @candidates = room.user.where(gender: 'female')
+      @candidates = room.users.where(gender: 'female')
     else
-      @candidates = room.user.where(gender: 'male')
+      @candidates = room.users.where(gender: 'male')
     end
   end
 
+  # POST /matching
   def matching
     my_id = params[:user][:id]
     vote_id = params[:candidate]
@@ -65,11 +71,19 @@ class RoomsController < ApplicationController
       redirect_to :action => "index"
     else
       # match
-      room_id = (my_id > vote_id) ? match1.room_id : match2.room_id
-      redirect_to :action => "message", :id => room_id
+      @room_id = (my_id > vote_id) ? match1.room_id : match2.room_id
+      redirect_to :action => "message", :id => @room_id
     end
   end
 
+  # GET /message/1
   def message
   end
+
+  private
+  def set_user
+    @user = User.find_by_id(params[:id])
+    redirect_to :action => "index" if @user.nil?
+  end
+
 end
