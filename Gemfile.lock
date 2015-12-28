@@ -233,7 +233,6 @@ GEM
       rspec-expectations (~> 3.4.0)
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
-    rspec-request_describer (0.1.0)
     rspec-support (3.4.1)
     ruby-graphviz (1.2.2)
     ruby-progressbar (1.7.5)
@@ -310,7 +309,6 @@ DEPENDENCIES
   rails-erd
   rails_best_practices
   rspec-rails
-  rspec-request_describer
   selenium-webdriver
   sqlite3
   therubyracer

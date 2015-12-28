@@ -28,7 +28,7 @@ group :development, :test do
   gem 'rails_best_practices'  # ベストプラクティスのチェック
 
   gem 'rspec-rails'
-  gem 'rspec-request_describer'
+  # gem 'rspec-request_describer'
   gem 'factory_girl_rails'
 end
 
