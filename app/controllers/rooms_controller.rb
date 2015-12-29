@@ -13,28 +13,25 @@ class RoomsController < ApplicationController
 
     @user = room.users.new(params[:user].permit(:name, :gender))
     if @user.save
-      # session[:user_id] = @user.id
-      # redirect_to :action => "room"
-      redirect_to :action => "room", :id => @user.id
+      session[:user_id] = @user.id
+      redirect_to :action => "room"
     else
       render :index
     end
   end
 
-  # GET /room/1
+  # GET /room
   def room
     gon.user = @user
   end
 
-  # GET /vote/1
+  # GET /vote
   def vote
-    room = @user.room
-
     @candidates = Array.new
     if @user.gender == 'male'
-      @candidates = room.users.where(gender: 'female')
+      @candidates = @user.room.users.where(gender: 'female')
     else
-      @candidates = room.users.where(gender: 'male')
+      @candidates = @user.room.users.where(gender: 'male')
     end
   end
 
@@ -70,8 +67,7 @@ class RoomsController < ApplicationController
 
   private
   def set_user
-    @user = User.find_by_id(params[:id])
-    # @user ||= User.find_by_id(session[:user_id])
+    @user ||= User.find_by_id(session[:user_id])
     redirect_to :action => "index" if @user.nil?
   end
 

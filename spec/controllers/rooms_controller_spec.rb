@@ -45,7 +45,7 @@ RSpec.describe RoomsController, type: :controller do
 
       it "redirects to rooms#room" do
         post :casting, user: attributes_for(:user)
-        expect(response).to redirect_to room_path(assigns[:user].id)
+        expect(response).to redirect_to room_path
       end
     end
 
@@ -54,47 +54,49 @@ RSpec.describe RoomsController, type: :controller do
     end
   end
 
-  describe 'GET #room' do
-    context "with valid attributes" do
+
+  describe "user access" do
+    before :each do
+      @user = create(:user)
+      session[:user_id] = @user.id
+    end
+
+    describe 'GET #room' do
       it "assigns the requested user to @user" do
-        user = create(:user)
-        get :room, id: user.id
-        expect(assigns(:user)).to eq user
+        get :room
+        expect(assigns(:user)).to eq @user
       end
 
       it "renders the :room template" do
-        user = create(:user)
-        get :room, id: user.id
+        get :room
         expect(response).to render_template :room
       end
     end
 
-    context "with invalid attributes" do
-      it "redirect to rooms#index" do
-        get :room, id: 1
-        expect(response).to redirect_to root_path
+    describe 'GET #vote' do
+      it "assigns the requested user to @user" do
+        get :vote
+        expect(assigns(:user)).to eq @user
+      end
+
+      it "renders the :vote template" do
+        get :vote
+        expect(response).to render_template :vote
       end
     end
   end
 
-  describe 'GET #vote' do
-    context "with valid attributes" do
-      it "assigns the requested user to @user" do
-        user = create(:user)
-        get :vote, id: user.id
-        expect(assigns(:user)).to eq user
-      end
-
-      it "renders the :vote template" do
-        user = create(:user)
-        get :vote, id: user.id
-        expect(response).to render_template :vote
+  describe "guest access" do
+    describe 'GET #room' do
+      it "redirect to room#index" do
+        get :room
+        expect(response).to redirect_to root_path
       end
     end
 
-    context "with invalid attributes" do
+    describe 'GET #vote' do
       it "redirect to room#index" do
-        get :vote, id: 1
+        get :vote
         expect(response).to redirect_to root_path
       end
     end
