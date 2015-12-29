@@ -12,7 +12,6 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 *.pdf
-.envrc
 rails_best_practices_output.html
 .envrc
 

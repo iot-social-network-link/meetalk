@@ -3,39 +3,37 @@ class RoomsController < ApplicationController
 
   # GET /
   def index
+    @user = User.new
   end
 
   # POST /casting
   def casting
-    room = Room.casting(params[:gender])
+    room = Room.casting(params[:user][:gender])
     render :index unless room.save
 
-    @user = room.users.new(
-      name: params[:name],
-      gender: params[:gender]
-    )
-
+    @user = room.users.new(params[:user].permit(:name, :gender))
     if @user.save
-      redirect_to :action => "room", :id => @user.id
+      session[:user_id] = @user.id
+      redirect_to :action => "room"
     else
       render :index
     end
   end
 
-  # GET /room/1
+  # GET /room
   def room
     gon.user = @user
   end
 
-  # GET /vote/1
+  # GET /vote
   def vote
-    room = @user.room
+    redirect_to :action => "index" unless @user.room.status
 
     @candidates = Array.new
     if @user.gender == 'male'
-      @candidates = room.users.where(gender: 'female')
+      @candidates = @user.room.users.where(gender: 'female')
     else
-      @candidates = room.users.where(gender: 'male')
+      @candidates = @user.room.users.where(gender: 'male')
     end
   end
 
@@ -71,7 +69,7 @@ class RoomsController < ApplicationController
 
   private
   def set_user
-    @user = User.find_by_id(params[:id])
+    @user ||= User.find_by_id(session[:user_id])
     redirect_to :action => "index" if @user.nil?
   end
 
