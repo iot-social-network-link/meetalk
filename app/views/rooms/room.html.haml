@@ -21,7 +21,7 @@
           %input{:type => 'radio', :name => 'audio_change', :id => "audio_off", :checked => false, :onclick => "onAudioChange()"}
           %label{:for => 'off', :class => 'switch-off'} OFF
       #exit_button
-        %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_video_chat()"} Exit
+        %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_confirm()"} Exit
 
       /message start
       #message
@@ -32,7 +32,9 @@
         /message end
 
 :javascript
-  //var multyparty;
-  console.log(gon.user);
-  console.log(gon.room_id);
-  video_chat_start(gon.room_id, gon.user.name, gon.user.gender, gon.user.id);
+  $(function(){
+    //var multyparty;
+    video_chat_start(gon.user.room_id, gon.user.name, gon.user.gender, gon.user.id);
+
+    $(window).on("beforeunload", function(e) {return "トークが終了します。";});
+  });

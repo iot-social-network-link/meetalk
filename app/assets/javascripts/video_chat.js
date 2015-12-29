@@ -89,6 +89,13 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
     manage_mediasteam(s_roomid, s_name, s_gender, uid);
 }
 
+// Exit確認
+function exit_confirm(){
+    if (confirm("会話が終了します。本当に終了してもよいですか？")) {
+        exit_video_chat();
+    }
+}
+
 // Exit機能
 function exit_video_chat(){
     console.log("Exit!!");

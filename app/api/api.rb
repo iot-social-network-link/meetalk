@@ -69,13 +69,13 @@ class API < Grape::API
       requires :room_id, type: Integer
     end
  	  get ':room_id' do
-      room = Room.find(params[:room_id])
-      if (room.male + room.female) == 4
-        return { result: true }
-      else
+      room = Room.find_by_id(params[:room_id])
+      if room.nil?
         return { result: false }
+      else
+        return { result: room.status }
       end
-	  end
+  	end
   end
 
 end
