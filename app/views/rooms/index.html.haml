@@ -8,7 +8,9 @@
             %p= msg
         = form_tag "/casting", method: "post" do
           = label_tag :'キャスティングを始めよう'
-          = text_field_tag :name, '', class: 'form-control', placeholder: 'ニックネーム'
+          = text_field_tag :name, '', id: 'name', class: 'form-control', placeholder: 'ニックネーム', maxlength: '10'
+          %span
+            2文字以上10文字以内で入力してね
           %div{:class => 'form-group'}
             = label_tag :gender, 'Gender', class: 'label-gender'
             %label{:class => 'radio'}
@@ -16,10 +18,35 @@
             %label{:class => 'radio'}
               %input{:type => 'radio', :name => 'gender', :value => 'female', :checked => false} female
             %br
-            = submit_tag :"CAST NOW", class: 'btn btn-lg btn-success btn-block'
+            = submit_tag :"CAST NOW", id: 'submit', class: 'btn btn-lg btn-success btn-block'
 :javascript
     $(function(){
-      $('.panel-animate').animate({
-        'opacity' : '1.0', 'padding-top' : '100px'
-      },1000);
+      view.animatePanel();
+      view.checkForm();
     });
+
+  var view = function (){};
+
+  //-----------------------------------
+  // パネルデフォルト表示
+  //-----------------------------------
+  view.animatePanel = function(){
+    $('.panel-animate').animate({
+      'opacity' : '1.0', 'padding-top' : '100px'
+    },1000);
+  }
+
+  //-----------------------------------
+  // name入力後にボタンをenable化
+  //-----------------------------------
+  view.checkForm = function() {
+    var test = $('#submit').prop('disabled', true);
+
+    $('#name').on('keydown keyup keypress change', function(e){
+      if ($(this).val().length < 2){
+        $('#submit').prop('disabled', true);
+      }else{
+        $('#submit').prop('disabled', false);
+      }
+    });
+  }
