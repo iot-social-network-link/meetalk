@@ -23,6 +23,16 @@
       #exit_button
         %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_video_chat()"} Exit
 
+      /message start
+      #message
+        %form
+          %input{:type => "text"}
+          %button{:type => "submit"} send
+        %p.receive
+        /message end
+
 :javascript
   //var multyparty;
-  video_chat_start(gon.room_id, gon.user.name, gon.user.gender);
+  console.log(gon.user);
+  console.log(gon.room_id);
+  video_chat_start(gon.room_id, gon.user.name, gon.user.gender, gon.user.id);

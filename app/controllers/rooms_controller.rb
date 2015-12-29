@@ -26,11 +26,12 @@ class RoomsController < ApplicationController
       room_id: room.id
     )
 
-    redirect_to :action => "room", :id => user.id
+    redirect_to :action => "room", :id => room.id, :user_id => user.id
   end
 
   def room
-    gon.user = User.find(params[:id])
+    gon.user = User.find(params[:user_id])
+    gon.room_id = params[:id]
   end
 
   def vote
