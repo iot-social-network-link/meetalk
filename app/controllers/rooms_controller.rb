@@ -27,6 +27,8 @@ class RoomsController < ApplicationController
 
   # GET /vote
   def vote
+    redirect_to :action => "index" unless @user.room.status
+
     @candidates = Array.new
     if @user.gender == 'male'
       @candidates = @user.room.users.where(gender: 'female')

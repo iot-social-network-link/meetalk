@@ -79,9 +79,21 @@ RSpec.describe RoomsController, type: :controller do
         expect(assigns(:user)).to eq @user
       end
 
-      it "renders the :vote template" do
-        get :vote
-        expect(response).to render_template :vote
+      # 4人いるとき
+      context "when there is not empty room" do
+        it "renders the :vote template"
+        # it "renders the :vote template" do
+        #   get :vote
+        #   expect(response).to render_template :vote
+        # end
+      end
+
+      # 4人いないとき
+      context "when there is empty room" do
+        it "redirect to room#index" do
+          get :vote
+          expect(response).to redirect_to root_path
+        end
       end
     end
   end

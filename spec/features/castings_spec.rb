@@ -8,12 +8,12 @@ RSpec.feature "Castings", type: :feature do
     visit root_path
 
     expect{
-      fill_in 'name', with: 'username'
+      fill_in 'user[name]', with: 'username'
       choose 'female'
       click_button 'CAST NOW'
     }.to change(User, :count).by(1).and change(Room, :count).by(1)
 
-    expect(current_path).to eq room_path(1)
+    expect(current_path).to eq room_path
     # expect(page).to have_content 'name: hogehoge'
     # expect(page).to have_content 'gen: female'
 
