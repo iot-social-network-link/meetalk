@@ -6,20 +6,22 @@
         - if @user.present? and @user.errors.any?
           - @user.errors.full_messages.each do |msg|
             %p= msg
-        = form_tag "/casting", method: "post" do
-          = label_tag :'キャスティングを始めよう'
-          = text_field_tag :name, '', class: 'form-control', placeholder: 'ニックネーム'
+        = form_for @user, :url => { :action => 'casting' } do |f|
+          = f.label :name, 'キャスティングを始めよう'
+          = f.text_field :name, class: 'form-control', placeholder: 'ニックネーム'
           .form-group
-            = label_tag :gender, 'Gender', class: 'label-gender'
-            %label.radio
-              %input{:type => 'radio', :name => 'gender', :value => 'male', :checked => true} male
+            = f.label :gender, 'Gender', class: 'label-gender'
             %label{:class => 'radio'}
-              %input{:type => 'radio', :name => 'gender', :value => 'female', :checked => false} female
+              = f.radio_button 'gender', 'male', { :checked => true }
+              male
+            %label{:class => 'radio'}
+              = f.radio_button 'gender', 'female'
+              female
             %br
-            = submit_tag :"CAST NOW", class: 'btn btn-lg btn-success btn-block'
+            = f.submit :"CAST NOW", class: 'btn btn-lg btn-success btn-block'
 :javascript
-    $(function(){
-      $('.panel-animate').animate({
-        'opacity' : '1.0', 'padding-top' : '100px'
-      },1000);
-    });
+  $(function(){
+    $('.panel-animate').animate({
+      'opacity' : '1.0', 'padding-top' : '100px'
+    },1000);
+  });

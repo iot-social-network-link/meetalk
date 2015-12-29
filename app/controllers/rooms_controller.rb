@@ -3,19 +3,15 @@ class RoomsController < ApplicationController
 
   # GET /
   def index
-    # @user = User.new
+    @user = User.new
   end
 
   # POST /casting
   def casting
-    room = Room.casting(params[:gender])
+    room = Room.casting(params[:user][:gender])
     render :index unless room.save
 
-    @user = room.users.new(
-      name: params[:name],
-      gender: params[:gender]
-    )
-
+    @user = room.users.new(params[:user].permit(:name, :gender))
     if @user.save
       # session[:user_id] = @user.id
       # redirect_to :action => "room"

@@ -12,9 +12,8 @@ RSpec.describe RoomsController, type: :controller do
   describe 'POST #casting' do
     context "with valid attributes" do
       it "save the new user in the database" do
-        # post :casting, user: attributes_for(:user)
         expect{
-          post :casting, name: 'name01', gender: 'male'
+          post :casting, user: attributes_for(:user)
         }.to change(User, :count).by(1)
       end
 
@@ -24,14 +23,14 @@ RSpec.describe RoomsController, type: :controller do
         end
 
         it "changes the room in the database" do
-          post :casting, name: 'name01', gender: 'male'
+          post :casting, user: attributes_for(:user)
           @room.reload
           expect(@room.male).to eq(2)
         end
 
         it "doesn't save the new room in the database" do
           expect{
-            post :casting, name: 'name01', gender: 'male'
+            post :casting, user: attributes_for(:user)
           }.to change(Room, :count).by(0)
         end
       end
@@ -39,13 +38,13 @@ RSpec.describe RoomsController, type: :controller do
       context "when there is not empty room" do
         it "save the new room in the database" do
           expect{
-            post :casting, name: 'name01', gender: 'male'
+            post :casting, user: attributes_for(:user)
           }.to change(Room, :count).by(1)
         end
       end
 
       it "redirects to rooms#room" do
-        post :casting, name: 'name01', gender: 'male'
+        post :casting, user: attributes_for(:user)
         expect(response).to redirect_to room_path(assigns[:user].id)
       end
     end
