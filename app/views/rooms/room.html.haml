@@ -23,10 +23,18 @@
       #exit_button
         %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_confirm()"} Exit
 
+      /message start
+      #message
+        %form
+          %input{:type => "text"}
+          %button{:type => "submit"} send
+        %p.receive
+        /message end
+
 :javascript
   $(function(){
     //var multyparty;
-    video_chat_start(gon.room_id, gon.user.name, gon.user.gender);
-    
+    video_chat_start(gon.user.room_id, gon.user.name, gon.user.gender, gon.user.id);
+
     $(window).on("beforeunload", function(e) {return "トークが終了します。";});
   });
