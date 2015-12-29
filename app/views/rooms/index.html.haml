@@ -9,6 +9,8 @@
         = form_for @user, :url => { :action => 'casting' } do |f|
           = f.label :name, 'キャスティングを始めよう'
           = f.text_field :name, class: 'form-control', placeholder: 'ニックネーム'
+          %span
+            2文字以上10文字以内で入力してね
           .form-group
             = f.label :gender, 'Gender', class: 'label-gender'
             %label{:class => 'radio'}
@@ -18,10 +20,35 @@
               = f.radio_button 'gender', 'female'
               female
             %br
-            = f.submit :"CAST NOW", class: 'btn btn-lg btn-success btn-block'
+            = f.submit "CAST NOW", id: 'submit', class: 'btn btn-lg btn-success btn-block'
 :javascript
-  $(function(){
+    $(function(){
+      view.animatePanel();
+      view.checkForm();
+    });
+
+  var view = function (){};
+
+  //-----------------------------------
+  // パネルデフォルト表示
+  //-----------------------------------
+  view.animatePanel = function(){
     $('.panel-animate').animate({
       'opacity' : '1.0', 'padding-top' : '100px'
     },1000);
-  });
+  }
+
+  //-----------------------------------
+  // name入力後にボタンをenable化
+  //-----------------------------------
+  view.checkForm = function() {
+    var test = $('#submit').prop('disabled', true);
+
+    $('#user_name').on('keydown keyup keypress change', function(e){
+      if ($(this).val().length < 2){
+        $('#submit').prop('disabled', true);
+      }else{
+        $('#submit').prop('disabled', false);
+      }
+    });
+  }
