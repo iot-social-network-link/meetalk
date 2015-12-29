@@ -3,30 +3,20 @@ class RoomsController < ApplicationController
   end
 
   def casting
-    room = nil
-    if params[:gender] == 'male'
-      room = Room.find_by("male < #{Settings.room.capacity}")
-    else
-      room = Room.find_by("female < #{Settings.room.capacity}")
-    end
-    if room.nil?
-      room = Room.new(male: 0, female: 0)
-    end
+    room = Room.casting(params[:gender])
+    render :index unless room.save
 
-    if params[:gender] == 'male'
-      room.male += 1
-    else
-      room.female += 1
-    end
-    room.save
-
-    user = User.create(
+    @user = User.new(
       name: params[:name],
       gender: params[:gender],
       room_id: room.id
     )
 
-    redirect_to :action => "room", :id => user.id
+    if @user.save
+      redirect_to :action => "room", :id => @user.id
+    else
+      render :index
+    end
   end
 
   def room
