@@ -13,10 +13,10 @@
             2文字以上10文字以内で入力してね
           .form-group
             = f.label :gender, 'Gender', class: 'label-gender'
-            %label{:class => 'radio'}
+            %label.radio
               = f.radio_button 'gender', 'male', { :checked => true }
               male
-            %label{:class => 'radio'}
+            %label.radio
               = f.radio_button 'gender', 'female'
               female
             %br
