@@ -3,6 +3,7 @@ class RoomsController < ApplicationController
 
   # GET /
   def index
+    # @user = User.new
   end
 
   # POST /casting
@@ -16,6 +17,8 @@ class RoomsController < ApplicationController
     )
 
     if @user.save
+      # session[:user_id] = @user.id
+      # redirect_to :action => "room"
       redirect_to :action => "room", :id => @user.id
     else
       render :index
@@ -72,6 +75,7 @@ class RoomsController < ApplicationController
   private
   def set_user
     @user = User.find_by_id(params[:id])
+    # @user ||= User.find_by_id(session[:user_id])
     redirect_to :action => "index" if @user.nil?
   end
 
