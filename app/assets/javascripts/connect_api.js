@@ -16,7 +16,8 @@ function select_uinfo(wid, resp){
 	var tmp = resp[i];
 	//console.log( wid + ' and ' + tmp.id + ' =? ' + (wid == tmp.id) );
 	if (wid == tmp.id){ //windowidが一致した場合に、ユーザ情報を返却
-	    var obj = {'wid': tmp.id, 'name': tmp.name, 'gender': tmp.gender};
+	    // XSS対策のため、ユーザ入力値はescapeすること
+	    var obj = {'wid': tmp.id, 'name': escapeHtml(tmp.name), 'gender': tmp.gender};
 	    console.log('get obj from 1. Get userinfo API');
 	    console.log(obj);
 	    return obj;
@@ -47,8 +48,8 @@ function addview_uinfo(video, uinfo, wid){
     var nameElem = document.createElement('div');
     nameElem.setAttribute("class", "peer-name");
     nameElem.setAttribute("id", "peer-name-" + wid);
-    // XSS対策のため、必ずinnnerTextにすること
-    nameElem.innerText = ('pname: ' + uinfo['name'] + '   pgender: ' + uinfo['gender']);
+    // XSS対策のため、ユーザ入力値はescapeすること
+nameElem.innerHTML = ('pname: ' + escapeHtml(uinfo['name']) + ' <br>  pgender: ' + uinfo['gender']);
     ( $("#peer-name-" + wid)[0] )? console.log('exist_peer') : $(nameElem).appendTo("#peer-video-uinfo-" + wid);
 }
 

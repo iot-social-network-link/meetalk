@@ -26,7 +26,10 @@
 :javascript
   $(function(){
     //var multyparty;
-    video_chat_start(gon.user.room_id, gon.user.name, gon.user.gender, gon.user.id);
+    console.log(gon.user);
+    console.log(escapeHtml(gon.user.name));
+    // XSS対策のため、ユーザ入力値はescapeすること
+    video_chat_start(gon.user.room_id, escapeHtml(gon.user.name), gon.user.gender, gon.user.id);
 
     $(window).on("beforeunload", function(e) {return "トークが終了します。";});
   });
