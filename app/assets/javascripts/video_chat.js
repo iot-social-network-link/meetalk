@@ -7,6 +7,7 @@
 function proc_myms(video, s_roomid, s_name, s_gender, uid){
     console.log('myvideo obj:');
     console.log(video);
+
     // 3. resist wid
     regist_windowid(uid, video['id']);
 
@@ -42,8 +43,11 @@ function manage_mediasteam(s_roomid, s_name, s_gender, uid) {
 	    peer_myms(s_roomid, video); //自分入室時の処理
 
 	}).on('ms_close', function(peer_id) {
+	    // TODO
+	    // 対象のユーザ情報を削除 wid
+	    // 4. delete_user(); //ブラウザを閉じた場合はexit関数で処理されないため必要
+
 	    // peerが切れたら、対象のvideoノードを削除する
-	    // 4. delete_user(); //ブラウザを閉じた場合はexit関数で処理されない
 	    $("#"+peer_id).remove();
 	})
 
@@ -94,9 +98,7 @@ function exit_video_chat(){
     console.log("Exit!!");
     multiparty.close();
     // 4. delete_user();
-    var top_url = "http://" + location.host;
-    console.log(top_url);
-    location.href=top_url; //redirect to top.
+    location.href=TOP_URL; //redirect to top.
 }
 
 // 映像ON／OFF機能
