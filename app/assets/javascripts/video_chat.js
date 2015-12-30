@@ -19,7 +19,8 @@ function proc_myms(video, s_roomid, s_name, s_gender, uid){
     // 名前枠を追加
     var myVideoElem = document.createElement('div');
     myVideoElem.setAttribute("id", 'my-video-uinfo'); 
-    myVideoElem.innerHTML = 'myname:  ' + s_name + '<br>mygen: ' + s_gender;
+    // XSS対策のため、必ずinnnerTextにすること
+    myVideoElem.innerText = 'myname:  ' + s_name + '    mygen: ' + s_gender;
     $(myVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
 }
 
@@ -63,7 +64,7 @@ function manage_message(name){
 	    ev.preventDefault();  // onsubmitのデフォルト動作（reload）を抑制
 	    // テキストデータ取得
 	    var $text = $(this).find("input[type=text]");
-	    var data = $text.val();
+	    var data = encodeURI($text.val());
 	    data = name + ': ' + data;
 	    if(data.length > 0) {
 		data = data.replace(/</g, "<").replace(/>/g, ">");
