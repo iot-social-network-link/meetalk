@@ -18,7 +18,7 @@ function proc_myms(video, s_roomid, s_name, s_gender, uid){
 
     // 名前枠を追加
     var myVideoElem = document.createElement('div');
-    myVideoElem.setAttribute("id", 'my-video-uinfo'); 
+    myVideoElem.setAttribute("id", 'my-video-uinfo');
     myVideoElem.innerHTML = 'myname:  ' + s_name + '<br>mygen: ' + s_gender;
     $(myVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
 }
@@ -83,10 +83,22 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
 	    "room_id": s_roomid,
 	    "debug": 2
 	});
-    manage_message(s_name);
+    //manage_message(s_name);
     // サーバとpeerに接続
     multiparty.start();
     manage_mediasteam(s_roomid, s_name, s_gender, uid);
+}
+
+function message_start(s_roomid, s_name) {
+    multiparty = new MultiParty( {
+	    "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
+	    "reliable": true,
+	    "room_id": s_roomid,
+	    "debug": 2
+	});
+    manage_message(s_name);
+    // サーバとpeerに接続
+    multiparty.start();
 }
 
 // Exit機能
