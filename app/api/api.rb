@@ -64,7 +64,11 @@ class API < Grape::API
       if user.nil?
         return { result: false }
       else
-        return { result: true } if User.delete(user.id)
+        if User.delete(user.id)
+         return { result: true } 
+        else 
+         return { result: false} 
+        end
       end
     end
 
