@@ -21,12 +21,6 @@ class API < Grape::API
   end
 
   resource "users" do
-    desc "returns all users"
-    # All User Info API: http://localhost:3000/api/v1/users
-    get do
-      return User.all
-    end
-
     desc "return a user in the room"
     # Users in the room API: http://localhost:3000/api/v1/users/:room_id
     params do
@@ -52,14 +46,6 @@ class API < Grape::API
         return user
       end
     end
-  end
-
-  resource "rooms" do
-	  desc "returns all rooms"
-    # All Rooms Info API: http://localhost:3000/api/v1/rooms
-	  get do
-		  return Room.all
-	  end
   end
 
   resource "room_full" do
