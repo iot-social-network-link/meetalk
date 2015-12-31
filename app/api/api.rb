@@ -46,6 +46,29 @@ class API < Grape::API
         return user
       end
     end
+
+    desc "Delete User with window_id and room_id"
+    # curl -X DELETE http://localhost:3000/api/v1/window_id/$window_id?room_id=$room_id
+    params do
+      requires :window_id, type: String
+      requires :room_id, type: Integer
+    end
+    delete ':window_id' do
+      user = User.find_by(window_id: params[:window_id], room_id: params[:room_id])
+      if user.nil?
+        return { result: false }
+      else
+        if User.delete(user.id)
+         return { result: true } 
+        else 
+         return { result: false} 
+        end
+      end
+    end
+
+
+
+
   end
 
   resource "room_full" do
