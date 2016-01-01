@@ -65,6 +65,7 @@ class RoomsController < ApplicationController
 
   # GET /message/1
   def message
+    gon.room_id = params[:id]
   end
 
   private

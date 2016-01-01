@@ -93,25 +93,33 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
     manage_mediasteam(s_roomid, s_name, s_gender, uid);
 }
 
-function message_start(s_roomid, s_name) {
+function message_start(s_roomid) {
     multiparty = new MultiParty( {
 	    "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
 	    "reliable": true,
 	    "room_id": s_roomid,
 	    "debug": 2
 	});
+    s_name = 'test';
     manage_message(s_name);
     // サーバとpeerに接続
     multiparty.start();
 }
 
-// Exit機能
+// Exit機能(skyway)
 function exit_video_chat(){
     console.log("Exit!!");
     multiparty.close();
     // 4. delete_user();
     location.href=TOP_URL; //redirect to top.
 }
+
+// Exit機能
+function exit(){
+    console.log("Exit!!");
+    location.href=TOP_URL; //redirect to top.
+}
+
 
 // 映像ON／OFF機能
 function onVideoChange(){

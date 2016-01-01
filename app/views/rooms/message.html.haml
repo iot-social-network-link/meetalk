@@ -8,13 +8,13 @@
     .col-sm-8.col-sm-offset-4
       #message
         %form
-          %input{:type => "text"}/
+          %input{:type => "text"}
           %button{:type => "submit"} send
         %p.receive
 
 :javascript
   $(function(){
-    message_start(gon.user.room_id, gon.user.name);
+    message_start(gon.room_id);
 
     $(window).on("beforeunload", function(e) {return "チャットが終了します。";});
   });
