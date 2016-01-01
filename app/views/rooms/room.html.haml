@@ -1,12 +1,20 @@
 .casting-background-image
 .container
   .row
-    .col-sm-8
-      #streams-male
-      #streams-female
-    .col-sm-2.col-sm-offset-1
+    .col-sm-8.col-sm-offset-2
       #room_timer
-        '４人集まるまで待ってね'
+        ４人集まるまで待ってね
+    .col-sm-1.col-sm-offset-1
+      #exit_button
+        %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_video_chat()"} Exit
+  .row
+    .col-sm-8
+      .row
+        .col-sm-5.col-sm-offset-1
+          #streams-male
+        .col-sm-5.col-sm-offset-1
+          #streams-female
+    .col-sm-2.col-sm-offset-1
       #video_change_button.form-group
         = label_tag :video_change, '映像ON/OFF', class: 'label-video-change'
         %form{:name => "video_change_form"}
@@ -21,14 +29,15 @@
           %label{:for => 'on', :class => 'switch-on'} ON
           %input{:type => 'radio', :name => 'audio_change', :id => "audio_off", :checked => false, :onclick => "onAudioChange()"}
           %label{:for => 'off', :class => 'switch-off'} OFF
-      #exit_button
-        %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_video_chat()"} Exit
 
 :javascript
   $(function(){
     console.log(gon.user);
     //var multyparty;
-    video_chat_start(gon.user.room_id, gon.user.name, gon.user.gender, gon.user.id);
+    console.log(gon.user);
+    console.log(escapeHtml(gon.user.name));
+    // XSS対策のため、ユーザ入力値はescapeすること
+    video_chat_start(gon.user.room_id, escapeHtml(gon.user.name), gon.user.gender, gon.user.id);
 
     $(window).on("beforeunload", function(e) {return "トークが終了します。";});
   });

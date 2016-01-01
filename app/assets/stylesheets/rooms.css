@@ -5,6 +5,9 @@
 body {
  margin: 0;
 }
+.container{
+  margin-top: 40px;
+}
 #message {
  width: 190px;
  margin: 10px;
@@ -20,11 +23,18 @@ body {
  border: 1px solid #000000;
  border-radius: 10px;
 }
- 
+
 #streams .my-video {
  -webkit-transform: scaleX(-1);
  -o-transform: scaleX(-1);
  -moz-transform: scaleX(-1);
  transform: scaleX(-1);
 }
-
+.talk-message{
+  font-size: 30px;
+  color: #FF8C00;
+}
+#room_timer{
+  font-size: 40px;
+  color: #FF8C00;
+}

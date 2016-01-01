@@ -67,14 +67,14 @@ function manage_message(name){
 	    ev.preventDefault();  // onsubmitのデフォルト動作（reload）を抑制
 	    // テキストデータ取得
 	    var $text = $(this).find("input[type=text]");
-	    var data = $text.val();
+	    var data = escapeHtml(($text.val()));
 	    data = name + ': ' + data;
 	    if(data.length > 0) {
 		data = data.replace(/</g, "<").replace(/>/g, ">");
 		$("p.receive").append(data + "<br>");
 		// メッセージを接続中のpeerに送信する
 		multiparty.send(data);
-		$text.val("");
+		//		$text.val("");
 	    }
 	});
 }
@@ -87,7 +87,7 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
 	    "room_id": s_roomid,
 	    "debug": 2
 	});
-    //manage_message(s_name);
+    //manage_message(s_name); //チャットしない
     // サーバとpeerに接続
     multiparty.start();
     manage_mediasteam(s_roomid, s_name, s_gender, uid);

@@ -21,12 +21,6 @@ class API < Grape::API
   end
 
   resource "users" do
-    desc "returns all users"
-    # All User Info API: http://localhost:3000/api/v1/users
-    get do
-      return User.all
-    end
-
     desc "return a user in the room"
     # Users in the room API: http://localhost:3000/api/v1/users/:room_id
     params do
@@ -52,14 +46,29 @@ class API < Grape::API
         return user
       end
     end
-  end
 
-  resource "rooms" do
-	  desc "returns all rooms"
-    # All Rooms Info API: http://localhost:3000/api/v1/rooms
-	  get do
-		  return Room.all
-	  end
+    desc "Delete User with window_id and room_id"
+    # curl -X DELETE http://localhost:3000/api/v1/window_id/$window_id?room_id=$room_id
+    params do
+      requires :window_id, type: String
+      requires :room_id, type: Integer
+    end
+    delete ':window_id' do
+      user = User.find_by(window_id: params[:window_id], room_id: params[:room_id])
+      if user.nil?
+        return { result: false }
+      else
+        if User.delete(user.id)
+         return { result: true } 
+        else 
+         return { result: false} 
+        end
+      end
+    end
+
+
+
+
   end
 
   resource "room_full" do
