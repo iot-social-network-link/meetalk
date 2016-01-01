@@ -16,7 +16,8 @@ function select_uinfo(wid, resp){
 	var tmp = resp[i];
 	//console.log( wid + ' and ' + tmp.id + ' =? ' + (wid == tmp.id) );
 	if (wid == tmp.id){ //windowidが一致した場合に、ユーザ情報を返却
-	    var obj = {'wid': tmp.id, 'name': tmp.name, 'gender': tmp.gender};
+	    // XSS対策のため、ユーザ入力値はescapeすること
+	    var obj = {'wid': tmp.id, 'name': escapeHtml(tmp.name), 'gender': tmp.gender};
 	    console.log('get obj from 1. Get userinfo API');
 	    console.log(obj);
 	    return obj;
@@ -26,8 +27,11 @@ function select_uinfo(wid, resp){
     return false;
 }
 
+// <div id="stream-(male/female)" >
+//   <div id="peer-video-uinfo-[wid]">
+//    <video .. >
+//    <div id="peer-name-[wid]"> pname:*** pgen:***
 function addview_uinfo(video, uinfo, wid){
-
     // ユーザ枠を追加: <div id = "peer-video-uinfo-[windowid]">
     var pVideoElem = document.createElement('div');
     pVideoElem.setAttribute("id", 'peer-video-uinfo-'+ video['id']);
@@ -44,10 +48,9 @@ function addview_uinfo(video, uinfo, wid){
     var nameElem = document.createElement('div');
     nameElem.setAttribute("class", "peer-name");
     nameElem.setAttribute("id", "peer-name-" + wid);
-    nameElem.innerHTML = ('pname: ' + uinfo['name'] + '<br> pgender: ' + uinfo['gender']);
+    // XSS対策のため、ユーザ入力値はescapeすること
+nameElem.innerHTML = ('pname: ' + escapeHtml(uinfo['name']) + ' <br>  pgender: ' + uinfo['gender']);
     ( $("#peer-name-" + wid)[0] )? console.log('exist_peer') : $(nameElem).appendTo("#peer-video-uinfo-" + wid);
-   
-   //    $("#peer-name-" + wid).html("pname: " + uinfo['name'] + '<br>' + "pgender: " + uinfo['gender']);
 }
 
 // ------------------------------------
