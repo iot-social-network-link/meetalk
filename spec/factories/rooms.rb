@@ -4,10 +4,12 @@ FactoryGirl.define do
     female 0
 
     after(:build) do |room|
-      n = 0
-      n += room.male unless room.male.nil?
-      n += room.female unless room.female.nil?
-      n.times { room.users << FactoryGirl.build(:user, room: room) }
+      unless room.male.nil?
+        room.male.times { room.users << FactoryGirl.build(:user, room: room, gender: 'male') }
+      end
+      unless room.female.nil?
+        room.female.times { room.users << FactoryGirl.build(:user, room: room, gender: 'female') }
+      end
     end
 
     factory :full_room do
