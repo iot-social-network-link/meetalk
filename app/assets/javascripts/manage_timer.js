@@ -9,8 +9,8 @@ function display_timer(){
   left_time = left_time - 1;
 
   if(left_time < 0){ // 終了判定・処理
-      console.log('ridirect to: ' + VOTE_URL);
-      location.href=VOTE_URL; //redirect to vote
+    console.log('ridirect to: ' + VOTE_URL);
+    location.href=VOTE_URL; //redirect to vote
   }
   // m:残時間を60でわった値  s:残時間を60で割った余り
   var m = Math.floor(left_time / 60);
