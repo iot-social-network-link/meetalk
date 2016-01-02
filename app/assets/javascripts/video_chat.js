@@ -18,7 +18,7 @@ function proc_myms(video, s_roomid, s_name, s_gender, uid){
 
     // 名前枠を追加
     var myVideoElem = document.createElement('div');
-    myVideoElem.setAttribute("id", 'my-video-uinfo'); 
+    myVideoElem.setAttribute("id", 'my-video-uinfo');
     myVideoElem.innerHTML = 'myname:  ' + s_name + ' <br>   mygen: ' + s_gender;
     $(myVideoElem).appendTo(selectElm_wGender(s_gender)); //"#streams"
 }
