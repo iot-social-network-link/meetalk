@@ -40,7 +40,7 @@ function manage_mediasteam(s_roomid, s_name, s_gender, uid) {
 	    proc_myms(video, s_roomid, s_name, s_gender, uid); //自分入室時の処理
 
 	}).on('peer_ms', function(video) {
-	    peer_myms(s_roomid, video); //自分入室時の処理
+	    peer_myms(s_roomid, video); //他人入室時の処理
 
 	}).on('ms_close', function(peer_id) {
 	    // TODO
@@ -83,7 +83,8 @@ function manage_message(name){
 function video_chat_start(s_roomid, s_name, s_gender, uid) {
     multiparty = new MultiParty( {
 	    //"key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
-      "key": "50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d",
+      // "key": "50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d",
+      "key": gon.const.multi_party_key,
 	    "reliable": true,
 	    "room_id": s_roomid,
 	    "debug": 2
@@ -96,7 +97,8 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
 
 function message_start(s_name, s_roomid) {
     multiparty = new MultiParty( {
-	    "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
+      "key": gon.const.multi_party_key,
+	    // "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
 	    "reliable": true,
 	    "room_id": s_roomid,
 	    "debug": 2

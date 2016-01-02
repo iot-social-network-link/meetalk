@@ -3,7 +3,7 @@
  *  --> connect_apiにて、満室判定ならcallされる
  * ----------------------------------------------------------------- */
 
-var left_time = VIDEO_TIME; //再帰呼び出しで利用するため、グローバル変数にする
+var left_time = gon.const.video_time; //再帰呼び出しで利用するため、グローバル変数にする
 
 function display_timer(){
   left_time = left_time - 1;
@@ -19,6 +19,3 @@ function display_timer(){
   $("#room_timer").html('<p id="timer_counter" > 終了まで' + s_timer + '</p>');
   setTimeout("display_timer()",1000); // 1sごと再帰呼び出し
 }
-
-
-

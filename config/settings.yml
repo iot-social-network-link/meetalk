@@ -3,3 +3,7 @@ room:
 match:
   roomid_num: 32
   vote_time: 10
+js:
+  video_time: 600
+  multi_party_key: 50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d
+  # multi_party_key: 44ed614d-25eb-4a1f-b7a8-a47acd9f7595

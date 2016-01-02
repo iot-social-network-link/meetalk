@@ -4,7 +4,6 @@
  * ----------------------------------------------------------------- */
 
 //jsで利用する定数
-const VIDEO_TIME = 60 * 1; //10m (60 * 10
 const TOP_URL = 'http://' + location.host + '/';
 const VOTE_URL = TOP_URL + 'vote/';
 
