@@ -16,6 +16,7 @@ gem 'gon'                     # JavaScript連携
 gem 'grape'                   # Restful API
 gem 'unicorn'
 gem 'therubyracer'
+gem "font-awesome-rails"      # Font Awesome利用
 
 group :development, :test do
   gem "better_errors"         # エラー画面の改良
