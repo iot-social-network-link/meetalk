@@ -14,7 +14,9 @@
 
 :javascript
   $(function(){
-    message_start(gon.room_id);
+    console.log(gon.user);
+    console.log(gon.room_id);
+    message_start(gon.user.name, gon.room_id);
 
     $(window).on("beforeunload", function(e) {return "チャットが終了します。";});
   });

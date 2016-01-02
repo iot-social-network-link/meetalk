@@ -82,7 +82,8 @@ function manage_message(name){
 //先に、manage_***()の定義が必要
 function video_chat_start(s_roomid, s_name, s_gender, uid) {
     multiparty = new MultiParty( {
-	    "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
+	    //"key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
+      "key": "50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d",
 	    "reliable": true,
 	    "room_id": s_roomid,
 	    "debug": 2
@@ -93,14 +94,13 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
     manage_mediasteam(s_roomid, s_name, s_gender, uid);
 }
 
-function message_start(s_roomid) {
+function message_start(s_name, s_roomid) {
     multiparty = new MultiParty( {
 	    "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
 	    "reliable": true,
 	    "room_id": s_roomid,
 	    "debug": 2
 	});
-    s_name = 'test';
     manage_message(s_name);
     // サーバとpeerに接続
     multiparty.start();

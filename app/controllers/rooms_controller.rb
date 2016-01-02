@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :set_user, only: [:room, :vote]
+  before_action :set_user, only: [:room, :vote, :message]
 
   # GET /
   def index
@@ -59,12 +59,16 @@ class RoomsController < ApplicationController
     else
       # match
       @room_id = (my_id > vote_id) ? match1.room_id : match2.room_id
+      #
+      session[:user_id] = @user.id
       redirect_to :action => "message", :id => @room_id
     end
   end
 
   # GET /message/1
   def message
+    #
+    gon.user = @user
     gon.room_id = params[:id]
   end
 
