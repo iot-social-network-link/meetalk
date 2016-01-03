@@ -119,7 +119,7 @@ RSpec.describe RoomsController, type: :controller do
 
     describe 'GET #matching' do
       let(:vote_id){ 10 }
-      let(:request){ post :matching, candidate: vote_id }
+      let(:request){ get :matching, candidate: vote_id }
       before :each do
         create(:match, my_id: @user.id, vote_id: vote_id )
       end
@@ -140,6 +140,14 @@ RSpec.describe RoomsController, type: :controller do
         end
       end
     end
+
+    describe 'GET #message' do
+      it ":message templateがレンダリングされること" do
+        match = build(:match)
+        get :message, id: match.room_id
+        expect(response).to render_template :message
+      end
+    end
   end
 
   describe "guest access" do
@@ -156,14 +164,27 @@ RSpec.describe RoomsController, type: :controller do
         expect(response).to redirect_to root_path
       end
     end
-  end
 
-  describe 'GET #message' do
-    it ":message templateがレンダリングされること" do
-      match = build(:match)
-      get :message, id: match.room_id
-      expect(response).to render_template :message
+    describe 'POST #wait' do
+      it "room#indexにリダイレクトされること" do
+        post :wait, candidate: 2
+        expect(response).to redirect_to root_path
+      end
+    end
+
+    describe 'GET #matching' do
+      it "room#indexにリダイレクトされること" do
+        get :matching, candidate: 2
+        expect(response).to redirect_to root_path
+      end
+    end
+
+    describe 'GET #message' do
+      it "room#indexにリダイレクトされること" do
+        match = build(:match)
+        get :message, id: match.room_id
+        expect(response).to redirect_to root_path
+      end
     end
   end
-
 end

@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :set_user, only: [:room, :vote, :message, :vote, :wait, :matching]
+  before_action :set_user, only: [:room, :vote, :wait, :matching, :message]
   before_action :set_js_const, only: [:index, :room, :vote, :message]
 
   # GET /
