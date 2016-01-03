@@ -85,7 +85,8 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
     // "key": "50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d",
     "key": gon.const.multi_party_key,
 	  "reliable": true,
-	  "room_id": s_roomid,
+	  "room": s_roomid,
+          "id": 'meetalkid_' + uid, //skywayでユーザを一位に特定するid?
 	  "debug": 2
 	});
   //manage_message(s_name); //チャットしない
