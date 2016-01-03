@@ -1,1 +1,25 @@
-message
+.casting-background-image
+.container
+  .row
+    .col-sm-2.col-sm-offset-10
+      #exit_button
+        %button.btn.btn-info{:type => "submit", :onclick => "exit_video_chat()"}
+          .fa.fa-sign-out
+          #exit_text
+            Exit
+  .row
+    .col-sm-8.col-sm-offset-4
+      #message
+        %form
+          %input{:type => "text"}
+          %button{:type => "submit"} send
+        %p.receive
+
+:javascript
+  $(function(){
+    console.log(gon.user);
+    console.log(gon.room_id);
+    message_start(gon.user.name, gon.room_id);
+
+    $(window).on("beforeunload", function(e) {return "チャットが終了します。";});
+  });

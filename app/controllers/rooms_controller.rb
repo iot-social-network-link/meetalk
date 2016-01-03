@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
-  before_action :set_user, only: [:room, :vote]
+  before_action :set_user, only: [:room, :vote, :message]
+  before_action :set_js_const, only: [:index, :room, :vote, :message]
 
   # GET /
   def index
@@ -65,12 +66,18 @@ class RoomsController < ApplicationController
 
   # GET /message/1
   def message
+    gon.user = @user
+    gon.room_id = params[:id]
   end
 
   private
   def set_user
     @user ||= User.find_by_id(session[:user_id])
     redirect_to :action => "index" if @user.nil?
+  end
+
+  def set_js_const
+    gon.const = Settings.js
   end
 
 end
