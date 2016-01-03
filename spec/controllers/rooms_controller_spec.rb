@@ -121,12 +121,12 @@ RSpec.describe RoomsController, type: :controller do
       let(:vote_id){ 10 }
       let(:request){ get :matching, candidate: vote_id }
       before :each do
-        create(:match, my_id: @user.id, vote_id: vote_id )
+        create(:match, user_id: @user.id, vote_id: vote_id )
       end
 
       context "matchした場合" do
         it "room#messageにリダイレクトされること" do
-          create(:match, my_id: vote_id, vote_id: @user.id )
+          create(:match, user_id: vote_id, vote_id: @user.id )
           request
           expect(response).to redirect_to message_path(assigns[:room_id])
         end
@@ -134,7 +134,7 @@ RSpec.describe RoomsController, type: :controller do
 
       context "matchしなかった場合" do
         it "room#indexにリダイレクトされること" do
-          create(:match, my_id: vote_id, vote_id: 99 )
+          create(:match, user_id: vote_id, vote_id: 99 )
           request
           expect(response).to redirect_to root_path
         end

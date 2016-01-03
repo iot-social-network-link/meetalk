@@ -41,7 +41,7 @@ class RoomsController < ApplicationController
   # POST /wait
   def wait
     room_id = ((0..9).to_a + ("a".."z").to_a + ("A".."Z").to_a).sample(Settings.match.roomid_num).join
-    Match.create( my_id: @user.id, vote_id: params[:candidate], room_id: room_id )
+    Match.create( user_id: @user.id, vote_id: params[:candidate], room_id: room_id )
 
     # 投票待ち
     sleep(Settings.match.vote_time)
@@ -57,8 +57,8 @@ class RoomsController < ApplicationController
       redirect_to :action => "index"
     else
       # match
-      match1 = Match.find_by(my_id: @user.id)
-      @room_id = (match1.my_id > match1.vote_id) ? match1.room_id : match2.room_id
+      match1 = Match.find_by(user_id: @user.id)
+      @room_id = (match1.user_id > match1.vote_id) ? match1.room_id : match2.room_id
       redirect_to :action => "message", :id => @room_id
     end
   end

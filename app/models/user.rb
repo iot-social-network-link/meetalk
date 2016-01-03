@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 	belongs_to :room
+	has_one :match
 
 	validates :name, length: { in: 2..10 }
 	validates :gender, inclusion: { in: %w(male female) }

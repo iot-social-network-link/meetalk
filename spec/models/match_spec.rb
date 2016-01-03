@@ -5,10 +5,10 @@ RSpec.describe Match, type: :model do
     expect(build(:match)).to be_valid
   end
 
-  it "is invalid without a my_id" do
-    match = build(:match, my_id: nil)
+  it "is invalid without a user_id" do
+    match = build(:match, user_id: nil)
     match.valid?
-    expect(match.errors[:my_id]).to include("を入力してください")
+    expect(match.errors[:user_id]).to include("を入力してください")
   end
 
   it "is invalid without a vote_id" do
