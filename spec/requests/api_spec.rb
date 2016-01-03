@@ -4,7 +4,7 @@ RSpec.describe 'API', type: :request do
 
   describe "GET /api/v1/users/:room_id" do
     before :each do
-      @room = create(:room, male: 0, female: 1)
+      @room = create(:room, :with_users, male: 0, female: 1)
       get "/api/v1/users/#{@room.id}.json"
     end
 
@@ -25,7 +25,7 @@ RSpec.describe 'API', type: :request do
   describe "GET api/v1/window_id/:window_id?room_id=:room_id" do
     context "userが存在する場合" do
       before :each do
-        room = create(:room, male: 0, female: 1)
+        room = create(:room, :with_users, male: 0, female: 1)
         @user = room.users.first
         @user.update(window_id: 'test2')
         get "/api/v1/window_id/#{@user.window_id}.json?room_id=#{@user.room_id}"
@@ -134,7 +134,7 @@ RSpec.describe 'API', type: :request do
     let(:request){ delete "/api/v1/window_id/#{window_id}.json?room_id=#{room_id}" }
 
     context "userが存在する場合" do
-      let(:user){ create(:room).users.first }
+      let(:user){ create(:room, :with_users).users.first }
       let(:window_id){ user.window_id }
       let(:room_id){ user.room_id }
       before :each do

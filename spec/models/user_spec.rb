@@ -24,7 +24,7 @@ RSpec.describe User, type: :model do
   end
 
   it "userが生成された時、roomが更新されること" do
-    room = create(:room)
+    room = create(:room, :with_users)
     expect{ create(:user, room_id: room.id) }.to change{
       room.reload
       room.male
