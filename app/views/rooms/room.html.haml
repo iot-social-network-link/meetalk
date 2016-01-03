@@ -6,7 +6,11 @@
         ４人集まるまで待ってね
     .col-sm-1.col-sm-offset-1
       #exit_button
-        %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit_video_chat()"} Exit
+        %button.btn.btn-info{:type => "submit", :onclick => "exit_video_chat()"}
+          .fa.fa-sign-out
+          #exit_text
+            Exit
+
   .row
     .col-sm-8
       .row

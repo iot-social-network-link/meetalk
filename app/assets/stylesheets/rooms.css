@@ -6,7 +6,7 @@ body {
  margin: 0;
 }
 .container{
-  margin-top: 40px;
+  margin-top: 20px;
 }
 #message {
  width: 190px;
@@ -37,4 +37,18 @@ body {
 #room_timer{
   font-size: 40px;
   color: #FF8C00;
+}
+.btn.btn-info{
+  background-color: rgba(0, 0, 0, 0.0);
+  border:0;
+}
+.btn.btn-info:hover{
+    color: #2F4F4F;
+    text-decoration: none;
+}
+.fa.fa-sign-out{
+  font-size: 40px;
+}
+#exit_test{
+  font-size: 20px;
 }
