@@ -33,11 +33,13 @@ RSpec.feature "Castings", type: :feature do
       choose 'male'
       click_button 'CAST NOW'
     }.to change(User, :count).by(1).and change(Room, :count).by(0)
-    
+
+    binding.pry
+
     user = User.find_by(name: 'user04')
     expect(user.room.status).to be_truthy
 
-    expect(current_path).to eq root_path
+    expect(current_path).to eq room_path
     expect(page).to_not have_content '４人集まるまで待ってね'
   end
 
