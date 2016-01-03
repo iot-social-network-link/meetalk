@@ -23,8 +23,39 @@ RSpec.describe 'API', type: :request do
   end
 
   describe "GET api/v1/window_id/:window_id?room_id=:room_id" do
-    it "user情報を返すこと"
-    # user_idではだめ？そもそも必要？
+    context "userが存在する場合" do
+      before :each do
+        room = create(:room, male: 0, female: 1)
+        @user = room.users.first
+        @user.update(window_id: 'test2')
+        get "/api/v1/window_id/#{@user.window_id}.json?room_id=#{@user.room_id}"
+      end
+
+      it "正しくアクセスできること" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "user情報を返すこと" do
+        json = JSON.parse(response.body)
+        expect(json['name']).to eq @user.name
+        expect(json['gender']).to eq @user.gender
+      end
+    end
+
+    context "userが存在しない場合" do
+      before :each do
+        get "/api/v1/window_id/test2.json?room_id=99"
+      end
+
+      it "正しくアクセスできること" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "falseを返すこと" do
+        json = JSON.parse(response.body)
+        expect(json['result']).to be_falsey
+      end
+    end
   end
 
   describe "GET api/v1/room_full/:room_id" do
@@ -99,27 +130,47 @@ RSpec.describe 'API', type: :request do
     end
   end
 
-  # user_idのほうがいいのでは？
   describe "DELETE /api/v1/window_id/:window_id?room_id=:room_id" do
-    before :each do
-      user = create(:room).users.first
-      user.update(window_id: 'test2')
-      delete "/api/v1/window_id/#{user.window_id}?room_id=#{user.room_id}.json"
+    let(:request){ delete "/api/v1/window_id/#{window_id}.json?room_id=#{room_id}" }
+
+    context "userが存在する場合" do
+      let(:user){ create(:room).users.first }
+      let(:window_id){ user.window_id }
+      let(:room_id){ user.room_id }
+      before :each do
+        user.update(window_id: 'test2')
+      end
+
+      it "正しくアクセスできること" do
+        request
+        expect(response).to have_http_status(:success)
+      end
+
+      it "trueを返すこと" do
+        request
+        json = JSON.parse(response.body)
+        expect(json['result']).to be_truthy
+      end
+
+      it "userが削除されること" do
+        expect{ request }.to change(User, :count).by(-1)
+      end
     end
 
-    it "正しくアクセスできること" do
-      expect(response).to have_http_status(:success)
-    end
+    context "userが存在しない場合" do
+      let(:window_id){ 'test2' }
+      let(:room_id){ 99 }
 
-    it "trueを返すこと" do
-      json = JSON.parse(response.body)
-      expect(json['result']).to be_truthy
-    end
+      it "正しくアクセスできること" do
+        request
+        expect(response).to have_http_status(:success)
+      end
 
-    it "userが削除されること"
-    # it "userが削除されること" do
-    #   expect{ request }.to change(User, :count).by(-1)
-    # end
+      it "falseを返すこと" do
+        request
+        json = JSON.parse(response.body)
+        expect(json['result']).to be_falsey
+      end
+    end
   end
-
 end
