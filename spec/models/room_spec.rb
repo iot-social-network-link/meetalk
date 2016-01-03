@@ -16,4 +16,15 @@ RSpec.describe Room, type: :model do
     room.valid?
     expect(room.errors[:female]).to include("は一覧にありません")
   end
+
+  it "roomが満員のときstatusがtrueを返すこと" do
+    room = build(:full_room)
+    expect(room.status).to be_truthy
+  end
+
+  it "roomが満員でないときstatusがfalseを返すこと" do
+    room = build(:room)
+    expect(room.status).to be_falsey
+  end
+
 end

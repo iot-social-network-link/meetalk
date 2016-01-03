@@ -17,7 +17,7 @@ class RoomsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to :action => "room"
     else
-      render :index
+      redirect_to :action => "index"
     end
   end
 

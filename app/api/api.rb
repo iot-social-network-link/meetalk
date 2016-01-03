@@ -3,7 +3,7 @@ class API < Grape::API
   version 'v1', :using => :path
 
   resource "user" do
-    desc "Register window_id to User"
+    desc "registers window_id to User"
     # Register window_id on User Table: http://localhost:3000/api/v1/user
     # Try below command on your terminal. if you get result true, it must be sccuess
     # $ curl -X PUT http://localhost:3000/api/v1/user/1 -d "window_id=test2"
@@ -21,7 +21,7 @@ class API < Grape::API
   end
 
   resource "users" do
-    desc "return a user in the room"
+    desc "returns users in the room"
     # Users in the room API: http://localhost:3000/api/v1/users/:room_id
     params do
       requires :room_id, type: Integer
@@ -32,8 +32,8 @@ class API < Grape::API
   end
 
   resource "window_id" do
-    desc "Get User information with window_id and room_id"
-    # http://localhost:3000/api/v1/window_id/$window_id?room_id=$room_id
+    desc "gets User information with window_id and room_id"
+    # http://localhost:3000/api/v1/window_id/:window_id?room_id=:room_id
     params do
       requires :window_id, type: String
       requires :room_id, type: Integer
@@ -47,32 +47,23 @@ class API < Grape::API
       end
     end
 
-    desc "Delete User with window_id and room_id"
-    # curl -X DELETE http://localhost:3000/api/v1/window_id/$window_id?room_id=$room_id
+    desc "deletes User with window_id and room_id"
+    # curl -X DELETE http://localhost:3000/api/v1/window_id/:window_id?room_id=:room_id
     params do
       requires :window_id, type: String
       requires :room_id, type: Integer
     end
     delete ':window_id' do
       user = User.find_by(window_id: params[:window_id], room_id: params[:room_id])
-      if user.nil?
-        return { result: false }
-      else
-        if User.delete(user.id)
-         return { result: true } 
-        else 
-         return { result: false} 
-        end
+      if user.present?
+        return { result: true } if User.delete(user.id)
       end
+      return { result: false }
     end
-
-
-
-
   end
 
   resource "room_full" do
-	  desc "return True when four member joined in the room"
+	  desc "returns True when four member joined in the room"
     # Room Full API: http://localhost:3000/api/v1/room_full/:room_id
     params do
       requires :room_id, type: Integer

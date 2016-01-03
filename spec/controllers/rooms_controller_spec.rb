@@ -3,54 +3,60 @@ require 'rails_helper'
 RSpec.describe RoomsController, type: :controller do
 
   describe 'GET #index' do
-    it "renders the :index template" do
+    it ":index templateがレンダリングされること" do
       get :index
       expect(response).to render_template :index
     end
   end
 
   describe 'POST #casting' do
-    context "with valid attributes" do
-      it "save the new user in the database" do
-        expect{
-          post :casting, user: attributes_for(:user)
-        }.to change(User, :count).by(1)
+    context "正しい値の場合" do
+      let(:request){ post :casting, user: attributes_for(:user) }
+
+      it "user dbに新規追加されること" do
+        expect{ request }.to change(User, :count).by(1)
       end
 
-      context "when there is empty room" do
+      context "roomが満員でない場合" do
         before :each do
-          @room = create(:room, male: 1)
+          @room = create(:room, :with_users, male: 1, female: 0)
         end
 
-        it "changes the room in the database" do
-          post :casting, user: attributes_for(:user)
+        it "room dbの値が更新されること" do
+          request
           @room.reload
           expect(@room.male).to eq(2)
         end
 
-        it "doesn't save the new room in the database" do
-          expect{
-            post :casting, user: attributes_for(:user)
-          }.to change(Room, :count).by(0)
+        it "room dbに新規追加されないこと" do
+          expect{ request }.to change(Room, :count).by(0)
         end
       end
 
-      context "when there is not empty room" do
-        it "save the new room in the database" do
-          expect{
-            post :casting, user: attributes_for(:user)
-          }.to change(Room, :count).by(1)
+      context "roomが満員の場合" do
+        it "room dbに新規追加されること" do
+          create(:full_room)
+          expect{ request }.to change(Room, :count).by(1)
         end
       end
 
-      it "redirects to rooms#room" do
-        post :casting, user: attributes_for(:user)
+      it "rooms#roomにリダイレクトされること" do
+        request
         expect(response).to redirect_to room_path
       end
     end
 
-    context "with invalid attributes" do
-      it "doesn't save the new user in the database"
+    context "正しい値でない場合" do
+      let(:request){ post :casting, user: attributes_for(:user, name: nil) }
+
+      it "user dbに新規追加されないこと"  do
+        expect{ request }.to change(User, :count).by(0)
+      end
+
+      it "rooms#indexにリダイレクトされること" do
+        request
+        expect(response).to redirect_to root_path
+      end
     end
   end
 
@@ -79,18 +85,18 @@ RSpec.describe RoomsController, type: :controller do
         expect(assigns(:user)).to eq @user
       end
 
-      # 4人いるとき
-      context "when there is not empty room" do
-        it "renders the :vote template"
-        # it "renders the :vote template" do
-        #   get :vote
-        #   expect(response).to render_template :vote
-        # end
+      context "roomが満員の場合" do
+        it ":vote templateがレンダリングされること" do
+          ['male', 'female', 'female'].each do |gender|
+            create(:user, room_id: @user.room_id, gender: gender)
+          end
+          get :vote
+          expect(response).to render_template :vote
+        end
       end
 
-      # 4人いないとき
-      context "when there is empty room" do
-        it "redirect to room#index" do
+      context "roomが満員でない場合" do
+        it "room#indexにリダイレクトされること" do
           get :vote
           expect(response).to redirect_to root_path
         end
@@ -100,14 +106,14 @@ RSpec.describe RoomsController, type: :controller do
 
   describe "guest access" do
     describe 'GET #room' do
-      it "redirect to room#index" do
+      it "room#indexにリダイレクトされること" do
         get :room
         expect(response).to redirect_to root_path
       end
     end
 
     describe 'GET #vote' do
-      it "redirect to room#index" do
+      it "room#indexにリダイレクトされること" do
         get :vote
         expect(response).to redirect_to root_path
       end
@@ -115,15 +121,15 @@ RSpec.describe RoomsController, type: :controller do
   end
 
   describe 'POST #matching' do
-    context "match" do
-      it "redirect to room#message" do
+    context "matchした場合" do
+      it "room#messageにリダイレクトされること" do
         create(:match, my_id: 2, vote_id: 1)
         post :matching, user: {id: 1}, candidate: 2
         expect(response).to redirect_to message_path(assigns[:room_id])
       end
     end
-    context "not match" do
-      it "redirect to room#index" do
+    context "matchしなかった場合" do
+      it "room#indexにリダイレクトされること" do
         create(:match, my_id: 2, vote_id: 3)
         post :matching, user: {id: 1}, candidate: 2
         expect(response).to redirect_to root_path
@@ -132,7 +138,7 @@ RSpec.describe RoomsController, type: :controller do
   end
 
   describe 'GET #message' do
-    it "renders the :index template" do
+    it ":message templateがレンダリングされること" do
       match = build(:match)
       get :message, id: match.room_id
       expect(response).to render_template :message
