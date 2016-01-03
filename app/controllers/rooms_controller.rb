@@ -60,8 +60,6 @@ class RoomsController < ApplicationController
     else
       # match
       @room_id = (my_id > vote_id) ? match1.room_id : match2.room_id
-      #
-      session[:user_id] = @user.id
       redirect_to :action => "message", :id => @room_id
     end
   end
