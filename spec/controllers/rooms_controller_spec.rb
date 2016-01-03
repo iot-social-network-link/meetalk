@@ -102,6 +102,44 @@ RSpec.describe RoomsController, type: :controller do
         end
       end
     end
+
+    describe "POST #wait" do
+      let(:request){ post :wait, candidate: 2 }
+
+      it "match dbに新規追加されること" do
+        expect{ request }.to change(Match, :count).by(1)
+      end
+
+      it "room#matchingにリダイレクトされること" do
+        request
+        expect(response).to redirect_to matching_path
+      end
+
+    end
+
+    describe 'GET #matching' do
+      let(:vote_id){ 10 }
+      let(:request){ post :matching, candidate: vote_id }
+      before :each do
+        create(:match, my_id: @user.id, vote_id: vote_id )
+      end
+
+      context "matchした場合" do
+        it "room#messageにリダイレクトされること" do
+          create(:match, my_id: vote_id, vote_id: @user.id )
+          request
+          expect(response).to redirect_to message_path(assigns[:room_id])
+        end
+      end
+
+      context "matchしなかった場合" do
+        it "room#indexにリダイレクトされること" do
+          create(:match, my_id: vote_id, vote_id: 99 )
+          request
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
   end
 
   describe "guest access" do
@@ -115,23 +153,6 @@ RSpec.describe RoomsController, type: :controller do
     describe 'GET #vote' do
       it "room#indexにリダイレクトされること" do
         get :vote
-        expect(response).to redirect_to root_path
-      end
-    end
-  end
-
-  describe 'POST #matching' do
-    context "matchした場合" do
-      it "room#messageにリダイレクトされること" do
-        create(:match, my_id: 2, vote_id: 1)
-        post :matching, user: {id: 1}, candidate: 2
-        expect(response).to redirect_to message_path(assigns[:room_id])
-      end
-    end
-    context "matchしなかった場合" do
-      it "room#indexにリダイレクトされること" do
-        create(:match, my_id: 2, vote_id: 3)
-        post :matching, user: {id: 1}, candidate: 2
         expect(response).to redirect_to root_path
       end
     end
