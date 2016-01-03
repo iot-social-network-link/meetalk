@@ -1,0 +1,4 @@
+match:
+  vote_time: 1
+js:
+  video_time: 10

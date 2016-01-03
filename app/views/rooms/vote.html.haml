@@ -1,7 +1,20 @@
-
-= form_tag "/matching", method: "post" do
-  = label_tag :candidate
-  = radio_button_tag :candidate, @candidates[0].id
-  = radio_button_tag :candidate, @candidates[1].id
-  = hidden_field :user, :id
-  = submit_tag "submit"
+.casting-background-image
+.container
+  .row
+    .col-sm-2.col-sm-offset-10
+      #exit_button
+        %button{:class => 'btn btn-info btn-large', :type => "submit", :onclick => "exit()"} Exit
+  .row
+    .col-sm-8.col-sm-offset-4
+      = form_tag "/matching", method: "post" do
+        %h3
+          気になる人を選んでね
+        %br
+        = radio_button_tag :candidate, @candidates[0].id
+        = label_tag :candidate, @candidates[0].name
+        %br
+        = radio_button_tag :candidate, @candidates[1].id
+        = label_tag :candidate, @candidates[1].name
+        %br
+        = hidden_field :user, :id
+        = submit_tag "submit"
