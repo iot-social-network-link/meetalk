@@ -10,6 +10,7 @@ function display_timer(){
 
   if(left_time < 0){ // 終了判定・処理
     console.log('ridirect to: ' + VOTE_URL);
+    $(window).off('beforeunload');
     location.href=VOTE_URL; //redirect to vote
   }
   // m:残時間を60でわった値  s:残時間を60で割った余り
