@@ -102,6 +102,14 @@ RSpec.describe RoomsController, type: :controller do
         end
       end
     end
+
+    describe 'GET #message' do
+      it ":message templateがレンダリングされること" do
+        match = build(:match)
+        get :message, id: match.room_id
+        expect(response).to render_template :message
+      end
+    end
   end
 
   describe "guest access" do
@@ -115,6 +123,14 @@ RSpec.describe RoomsController, type: :controller do
     describe 'GET #vote' do
       it "room#indexにリダイレクトされること" do
         get :vote
+        expect(response).to redirect_to root_path
+      end
+    end
+
+    describe 'GET #message' do
+      it "room#indexにリダイレクトされること" do
+        match = build(:match)
+        get :message, id: match.room_id
         expect(response).to redirect_to root_path
       end
     end
@@ -136,13 +152,4 @@ RSpec.describe RoomsController, type: :controller do
       end
     end
   end
-
-  describe 'GET #message' do
-    it ":message templateがレンダリングされること" do
-      match = build(:match)
-      get :message, id: match.room_id
-      expect(response).to render_template :message
-    end
-  end
-
 end
