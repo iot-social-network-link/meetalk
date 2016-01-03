@@ -68,6 +68,7 @@ class RoomsController < ApplicationController
 
   # GET /message/1
   def message
+    gon.user = @user
     gon.room_id = params[:id]
   end
 
