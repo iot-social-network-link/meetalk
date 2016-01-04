@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20160103134934) do
   create_table "matches", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.integer  "vote_id",    null: false
-    t.string   "room_id",    null: false
+    t.string   "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

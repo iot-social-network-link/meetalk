@@ -17,9 +17,16 @@ RSpec.describe Match, type: :model do
     expect(match.errors[:vote_id]).to include("を入力してください")
   end
 
-  it "is invalid without a room_id" do
-    match = build(:match, room_id: nil)
-    match.valid?
-    expect(match.errors[:room_id]).to include("を入力してください")
+  it "room_idが自動生成されること" do
+    expect(create(:match).room_id).to be_truthy
   end
+
+  it "room_idは32文字であること" do
+    expect(create(:match).room_id.size).to eq 32
+  end
+
+  it "room_idはランダム英数字であること" do
+    expect(create(:match).room_id).to match /\w+/
+  end
+
 end
