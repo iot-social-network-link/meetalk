@@ -2,6 +2,13 @@ require 'rails_helper'
 
 RSpec.describe RoomsController, type: :controller do
 
+  shared_examples 'redirects to room#index' do
+    it "room#indexにリダイレクトされること" do
+      request
+      expect(response).to redirect_to root_path
+    end
+  end
+
   describe 'GET #index' do
     it ":index templateがレンダリングされること" do
       get :index
@@ -46,14 +53,10 @@ RSpec.describe RoomsController, type: :controller do
 
     context "正しい値でない場合" do
       let(:request){ post :casting, user: attributes_for(:user, name: nil) }
+      it_behaves_like 'redirects to room#index'
 
       it "user dbに新規追加されないこと"  do
         expect{ request }.to change(User, :count).by(0)
-      end
-
-      it "rooms#indexにリダイレクトされること" do
-        request
-        expect(response).to redirect_to root_path
       end
     end
   end
@@ -108,10 +111,7 @@ RSpec.describe RoomsController, type: :controller do
       end
 
       context "roomが満員でない場合" do
-        it "room#indexにリダイレクトされること" do
-          request
-          expect(response).to redirect_to root_path
-        end
+        it_behaves_like 'redirects to room#index'
       end
     end
 
@@ -151,13 +151,6 @@ RSpec.describe RoomsController, type: :controller do
       end
 
       context "matchしなかった場合" do
-        shared_examples 'redirects to room#index' do
-          it "room#indexにリダイレクトされること" do
-            request
-            expect(response).to redirect_to root_path
-          end
-        end
-
         context "1->10, 20->1" do
           before(:each){ create(:match, user_id: 20, vote_id: @user.id ) }
           it_behaves_like 'redirects to room#index'
@@ -184,13 +177,6 @@ RSpec.describe RoomsController, type: :controller do
   end
 
   describe "guest access" do
-    shared_examples 'redirects to room#index' do
-      it "room#indexにリダイレクトされること" do
-        request
-        expect(response).to redirect_to root_path
-      end
-    end
-
     describe 'GET #room' do
       let(:request){ get :room }
       it_behaves_like 'redirects to room#index'
