@@ -17,10 +17,13 @@ RSpec.describe RoomsController, type: :controller do
         expect{ request }.to change(User, :count).by(1)
       end
 
+      it "rooms#roomにリダイレクトされること" do
+        request
+        expect(response).to redirect_to room_path
+      end
+
       context "roomが満員でない場合" do
-        before :each do
-          @room = create(:room, :with_users, male: 1, female: 0)
-        end
+        before(:each){ @room = create(:room, :with_users, male: 1, female: 0) }
 
         it "room dbの値が更新されること" do
           request
@@ -38,11 +41,6 @@ RSpec.describe RoomsController, type: :controller do
           create(:full_room)
           expect{ request }.to change(Room, :count).by(1)
         end
-      end
-
-      it "rooms#roomにリダイレクトされること" do
-        request
-        expect(response).to redirect_to room_path
       end
     end
 
@@ -67,37 +65,51 @@ RSpec.describe RoomsController, type: :controller do
       session[:user_id] = @user.id
     end
 
-    describe 'GET #room' do
-      it "assigns the requested user to @user" do
-        get :room
+    shared_examples 'assigns the requested user to @user' do
+      it "@userに正しい値が代入されること" do
+        request
         expect(assigns(:user)).to eq @user
       end
+    end
 
-      it "renders the :room template" do
+    describe 'GET #room' do
+      let(:request){ get :room }
+      it_behaves_like 'assigns the requested user to @user'
+
+      it ":room templateにレンダリングされること" do
         get :room
         expect(response).to render_template :room
       end
     end
 
     describe 'GET #vote' do
-      it "assigns the requested user to @user" do
-        get :vote
-        expect(assigns(:user)).to eq @user
-      end
+      let(:request){ get :vote }
+      it_behaves_like 'assigns the requested user to @user'
 
       context "roomが満員の場合" do
-        it ":vote templateがレンダリングされること" do
+        before :each do
           ['male', 'female', 'female'].each do |gender|
             create(:user, room_id: @user.room_id, gender: gender)
           end
-          get :vote
+          request
+        end
+
+        it ":vote templateがレンダリングされること" do
           expect(response).to render_template :vote
+        end
+
+        it "@candidatesの要素数が2であること" do
+          expect(assigns(:candidates).size).to eq 2
+        end
+
+        it "@candidatesに候補userが代入されること" do
+          expect(assigns(:candidates)).to eq @user.room.users.where(gender: 'female')
         end
       end
 
       context "roomが満員でない場合" do
         it "room#indexにリダイレクトされること" do
-          get :vote
+          request
           expect(response).to redirect_to root_path
         end
       end
@@ -105,6 +117,7 @@ RSpec.describe RoomsController, type: :controller do
 
     describe "POST #wait" do
       let(:request){ post :wait, candidate: 2 }
+      it_behaves_like 'assigns the requested user to @user'
 
       it "match dbに新規追加されること" do
         expect{ request }.to change(Match, :count).by(1)
@@ -119,10 +132,11 @@ RSpec.describe RoomsController, type: :controller do
 
     describe 'GET #matching' do
       let(:vote_id){ 10 }
-      let(:request){ get :matching, candidate: vote_id }
-      before :each do
+      let(:request){
         create(:match, user_id: @user.id, vote_id: vote_id )
-      end
+        get :matching, candidate: vote_id
+      }
+      it_behaves_like 'assigns the requested user to @user'
 
       context "matchした場合" do
         it "room#messageにリダイレクトされること" do
@@ -142,49 +156,50 @@ RSpec.describe RoomsController, type: :controller do
     end
 
     describe 'GET #message' do
-      it ":message templateがレンダリングされること" do
+      let(:request){
         match = build(:match)
         get :message, id: match.room_id
+      }
+      it_behaves_like 'assigns the requested user to @user'
+
+      it ":message templateがレンダリングされること" do
+        request
         expect(response).to render_template :message
       end
     end
   end
 
   describe "guest access" do
-    describe 'GET #room' do
+    shared_examples 'redirects to room#index' do
       it "room#indexにリダイレクトされること" do
-        get :room
+        request
         expect(response).to redirect_to root_path
       end
+    end
+
+    describe 'GET #room' do
+      let(:request){ get :room }
+      it_behaves_like 'redirects to room#index'
     end
 
     describe 'GET #vote' do
-      it "room#indexにリダイレクトされること" do
-        get :vote
-        expect(response).to redirect_to root_path
-      end
+      let(:request){ get :vote }
+      it_behaves_like 'redirects to room#index'
     end
 
     describe 'POST #wait' do
-      it "room#indexにリダイレクトされること" do
-        post :wait, candidate: 2
-        expect(response).to redirect_to root_path
-      end
+      let(:request){ post :wait, candidate: 2 }
+      it_behaves_like 'redirects to room#index'
     end
 
     describe 'GET #matching' do
-      it "room#indexにリダイレクトされること" do
-        get :matching, candidate: 2
-        expect(response).to redirect_to root_path
-      end
+      let(:request){ get :matching, candidate: 2 }
+      it_behaves_like 'redirects to room#index'
     end
 
     describe 'GET #message' do
-      it "room#indexにリダイレクトされること" do
-        match = build(:match)
-        get :message, id: match.room_id
-        expect(response).to redirect_to root_path
-      end
+      let(:request){ post :wait, candidate: 2 }
+      it_behaves_like 'redirects to room#index'
     end
   end
 end
