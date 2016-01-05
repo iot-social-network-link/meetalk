@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151229132409) do
+ActiveRecord::Schema.define(version: 20160103134934) do
 
   create_table "matches", force: :cascade do |t|
-    t.integer  "my_id",      null: false
+    t.integer  "user_id",    null: false
     t.integer  "vote_id",    null: false
-    t.string   "room_id",    null: false
+    t.string   "room_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -3,7 +3,7 @@ class CreateMatches < ActiveRecord::Migration
     create_table :matches do |t|
       t.integer :my_id, null: false
       t.integer :vote_id, null: false
-      t.string :room_id, null: false
+      t.string :room_id
 
       t.timestamps null: false
     end
