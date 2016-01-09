@@ -4,9 +4,16 @@
  * ----------------------------------------------------------------- */
 
 //jsで利用する定数
-const TOP_URL = 'http://' + location.host + '/';
-const VOTE_URL = TOP_URL + 'vote/';
+const TOP_URL   = 'https://' + location.host + '/';
+const VOTE_URL  = TOP_URL + 'vote/';
+const DEBUG_FLG = true; // true で、ログ表示
 
+//debug flgに応じてlogging
+function logging_debug(obj){
+  if (DEBUG_FLG) { //debug=ONなら、ログ表示
+    console.log(obj);
+  }
+}
 
 //htmlエンコード
 function escapeHtml(content) {
