@@ -4,7 +4,8 @@
  * ----------------------------------------------------------------- */
 
 //jsで利用する定数
-const TOP_URL   = 'https://' + location.host + '/';
+const TOP_URL   = 'http://localhost:3000/'; // localhost
+//'https://metalk.cloudapp.net/'; // 本番サーバではこちらを使う
 const VOTE_URL  = TOP_URL + 'vote/';
 const DEBUG_FLG = true; // true で、ログ表示
 
@@ -23,9 +24,13 @@ function escapeHtml(content) {
 	　"<": "&lt;",
 	　">": "&gt;"
   };
-  return content.replace(/[&"<>]/g, function(match) {
-  　return TABLE_FOR_ESCAPE_HTML[match];
-  });
+  if (typeof content === "undefined"){ //undefinedなら空文字を返却
+    return '';
+  }else{
+    return content.replace(/[&"<>]/g, function(match) {
+      return TABLE_FOR_ESCAPE_HTML[match];
+    });
+  }
 }
 
 //RFC3986 に従ったURLエンコード処理

@@ -82,10 +82,11 @@ function manage_message(name){
 function video_chat_start(s_roomid, s_name, s_gender, uid) {
 
   //sessionStorage  
+  var storage = sessionStorage;
   logging_debug('sessionStorage:');
-  logging_debug(sessionStorage);
+  logging_debug(storage);
   storage.clear();
-  logging_debug(sessionStorage);
+  logging_debug(storage);
 
   mlt_debug = (DEBUG_FLG) ? 2 : 0;
   multiparty = new MultiParty( {

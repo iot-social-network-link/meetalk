@@ -37,8 +37,8 @@
 :javascript
   $(function(){
     //var multyparty;
-    console.log(gon.user);
-    console.log(escapeHtml(gon.user.name));
+    logging_debug('user info');
+    logging_debug(gon.user);
     // XSS対策のため、ユーザ入力値はescapeすること
     video_chat_start(gon.user.room_id, escapeHtml(gon.user.name), gon.user.gender, gon.user.id);
 
