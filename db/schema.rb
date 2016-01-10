@@ -32,13 +32,13 @@ ActiveRecord::Schema.define(version: 20160110032322) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",                   null: false
-    t.string   "gender",                 null: false
-    t.integer  "room_id",                null: false
+    t.string   "name",                      null: false
+    t.string   "gender",                    null: false
+    t.integer  "room_id",                   null: false
     t.string   "window_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "status",     default: 1
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "status",     default: true
   end
 
   add_index "users", ["room_id"], name: "index_users_on_room_id"

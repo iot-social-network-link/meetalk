@@ -31,12 +31,6 @@ RSpec.describe User, type: :model do
     expect(user.errors[:status]).to include("は一覧にありません")
   end
 
-  it "statusが1~3以外の場合、validationエラーが発生すること" do
-    user = build(:user, status: 5)
-    user.valid?
-    expect(user.errors[:status]).to include("は一覧にありません")
-  end
-
   it "userが生成された時、roomが更新されること" do
     room = create(:room, :with_users)
     expect{ create(:user, room_id: room.id) }.to change{

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
 	validates :name, length: { in: 2..10 }
 	validates :gender, inclusion: { in: %w(male female) }
-	validates :status, inclusion: { in: 1..3 }
+	validates :status, inclusion: { in: [true, false] }
 	# validates :room_id, presence: true
 
 	after_create :update_room_member
