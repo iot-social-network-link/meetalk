@@ -3,5 +3,6 @@ FactoryGirl.define do
     association :room
     name 'name01'
     gender 'male'
+    status 1
   end
 end

@@ -3,6 +3,7 @@ class Room < ActiveRecord::Base
 
 	validates :male, inclusion: { in: 0..Settings.room.capacity }
 	validates :female, inclusion: { in: 0..Settings.room.capacity }
+	validates :status, inclusion: { in: 1..3 }
 
 	def self.casting(user_gender)
 		room = nil
@@ -16,12 +17,12 @@ class Room < ActiveRecord::Base
 		return room
 	end
 
-	def status
-		if self.male + self.female == Settings.room.capacity * 2
-			return true
-		else
-			return false
-		end
-	end
+	# def status
+	# 	if self.male + self.female == Settings.room.capacity * 2
+	# 		return true
+	# 	else
+	# 		return false
+	# 	end
+	# end
 
 end
