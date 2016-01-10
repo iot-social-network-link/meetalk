@@ -65,7 +65,7 @@ class API < Grape::API
   resource "leaving_user" do
     desc "change to invalids status with User"
     # Leaving User Full API: 
-    # $ curl -X PUT curl -X PUT http://localhost:3000/api/v1/leaving_user/:user_id -d ""
+    # $ curl -X PUT curl -X PUT http://localhost:3000/api/v1/leaving_user -d "user_id=:user_id"
     params do
       requires :user_id, type: Integer
     end
@@ -73,8 +73,7 @@ class API < Grape::API
     put do
       user = User.find_by_id(params[:user_id])
       if user.present?
-        user.update_attribute(:status, false)
-        return { result: true } if user.save
+        return { result: true } if user.update(:status => 'false')
       end
       return { result: false }
     end
