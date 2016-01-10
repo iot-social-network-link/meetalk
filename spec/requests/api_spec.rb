@@ -106,6 +106,34 @@ RSpec.describe 'API', type: :request do
     end
   end
 
+  describe "PUT /api/v1/user_id/:user_id" do
+    let(:request){ put "/api/v1/user_id/#{user_id}.json?" }
+
+    context "userが存在する場合" do
+      let(:user){ create(:room, :with_users).users.first }
+
+      it_behaves_like 'check http_status'
+      it_behaves_like 'return true'
+
+      it "user statusがfalseに変更されること" do
+        request
+        expect(user.status).to eq be_falsey
+      end
+
+      it "roomの人数が変更されること" do
+        request
+        expect(room.male).to eq 0
+        expect(room.female).to eq 0
+      end
+    end
+
+    context "userが存在しない場合" do
+      let(:user_id){ 99 }
+      it_behaves_like 'check http_status'
+      it_behaves_like 'return false'
+    end
+  end
+
   describe "DELETE /api/v1/window_id/:window_id?room_id=:room_id" do
     let(:request){ delete "/api/v1/window_id/#{window_id}.json?room_id=#{room_id}" }
 
