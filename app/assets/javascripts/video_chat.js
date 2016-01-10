@@ -81,12 +81,8 @@ function manage_message(name){
 //先に、manage_***()の定義が必要
 function video_chat_start(s_roomid, s_name, s_gender, uid) {
 
-  //sessionStorage  
-  var storage = sessionStorage;
-  logging_debug('sessionStorage:');
-  logging_debug(storage);
-  storage.clear();
-  logging_debug(storage);
+  //sessionStorageクリア
+  clearSessionStorage();
 
   mlt_debug = (DEBUG_FLG) ? 2 : 0;
   multiparty = new MultiParty( {
@@ -125,9 +121,20 @@ function exit_video_chat(){
   location.href=TOP_URL; //redirect to top.
 }
 
+// ブラウザのsessionStorageを削除する関数
+function clearSessionStorage(){
+  //sessionStorage
+  var storage = sessionStorage;
+  logging_debug('sessionStorage:');
+  logging_debug(storage);
+  storage.clear();
+  logging_debug(storage);
+}
+
 // Exit機能
 function exit(){
   logging_debug("Exit!!");
+  clearSessionStorage();
   location.href=TOP_URL; //redirect to top.
 }
 
