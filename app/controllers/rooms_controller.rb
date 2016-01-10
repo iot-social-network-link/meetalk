@@ -11,7 +11,6 @@ class RoomsController < ApplicationController
   def casting
     room = Room.casting(params[:user][:gender])
     render :index unless room.save
-    # binding.pry
 
     @user = room.users.new(params[:user].permit(:name, :gender))
     if @user.save
