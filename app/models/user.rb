@@ -7,11 +7,18 @@ class User < ActiveRecord::Base
 	validates :status, inclusion: { in: [true, false] }
 	# validates :room_id, presence: true
 
-	after_create :update_room_member
+	after_create :update_room
 
 	private
-	def update_room_member
+	def update_room
 		count = User.where(room_id: self.room_id).group(:gender).count
-		self.room.update(count)
+		self.room.male = count['male'] || 0
+		self.room.female = count['female'] || 0
+
+		if self.room.status == 1 and self.room.male + self.room.female == Settings.room.capacity * 2
+			self.room.status = 2
+		end
+
+		self.room.save
 	end
 end

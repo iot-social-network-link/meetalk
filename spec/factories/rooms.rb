@@ -17,7 +17,7 @@ FactoryGirl.define do
             :user,
             room: room,
             gender: 'male',
-            status: room.status
+            status: true
           ) }
         end
         unless room.female.nil?
@@ -25,7 +25,7 @@ FactoryGirl.define do
             :user,
             room: room,
             gender: 'female',
-            status: room.status
+            status: true
           ) }
         end
       end

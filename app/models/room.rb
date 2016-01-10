@@ -16,13 +16,4 @@ class Room < ActiveRecord::Base
 
 		return room
 	end
-
-	# def status
-	# 	if self.male + self.female == Settings.room.capacity * 2
-	# 		return true
-	# 	else
-	# 		return false
-	# 	end
-	# end
-
 end
