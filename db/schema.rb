@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160103134934) do
+ActiveRecord::Schema.define(version: 20160110032322) do
 
   create_table "matches", force: :cascade do |t|
     t.integer  "user_id",    null: false
@@ -28,15 +28,17 @@ ActiveRecord::Schema.define(version: 20160103134934) do
     t.integer  "female",     default: 0, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.integer  "status",     default: 1
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "gender",     null: false
-    t.integer  "room_id",    null: false
+    t.string   "name",                      null: false
+    t.string   "gender",                    null: false
+    t.integer  "room_id",                   null: false
     t.string   "window_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "status",     default: true
   end
 
   add_index "users", ["room_id"], name: "index_users_on_room_id"
