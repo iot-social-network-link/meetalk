@@ -80,13 +80,16 @@ function manage_message(name){
 
 //先に、manage_***()の定義が必要
 function video_chat_start(s_roomid, s_name, s_gender, uid) {
+
+  var room_name = 'room' + (s_roomid).toString();
+
   multiparty = new MultiParty( {
 	  //"key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
     // "key": "50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d",
     "key": gon.const.multi_party_key,
 	  "reliable": true,
-	  "room": s_roomid,
-          "id": 'meetalkid_' + uid, //skywayでユーザを一位に特定するid?
+	  "room": room_name,
+    "id": 'meetalkid_' + uid, //skywayでユーザを一位に特定するid?
 	  "debug": 2
 	});
   //manage_message(s_name); //チャットしない
