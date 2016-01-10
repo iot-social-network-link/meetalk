@@ -28,7 +28,8 @@ class RoomsController < ApplicationController
 
   # GET /vote
   def vote
-    redirect_to :action => "index" unless @user.room.status
+    redirect_to :action => "index" if @user.room.status == 1
+    @user.room.update(status: 3)
 
     @candidates = Array.new
     if @user.gender == 'male'
@@ -69,7 +70,7 @@ class RoomsController < ApplicationController
   private
   def set_user
     @user ||= User.find_by_id(session[:user_id])
-    redirect_to :action => "index" if @user.nil?
+    redirect_to :action => "index" if @user.nil? || !@user.status
   end
 
   def set_js_const

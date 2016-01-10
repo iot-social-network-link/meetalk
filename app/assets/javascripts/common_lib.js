@@ -4,9 +4,18 @@
  * ----------------------------------------------------------------- */
 
 //jsで利用する定数
-const TOP_URL = 'http://' + location.host + '/';
-const VOTE_URL = TOP_URL + 'vote/';
+const URI_SCHEME = 'http://'; 
+//'https:'; // 本番サーバではこちらを使う
+const TOP_URL   = URI_SCHEME + location.host + '/'; // localhost
+const VOTE_URL  = TOP_URL + 'vote/';
+const DEBUG_FLG = true; // true で、ログ表示
 
+//debug flgに応じてlogging
+function logging_debug(obj){
+  if (DEBUG_FLG) { //debug=ONなら、ログ表示
+    console.log(obj);
+  }
+}
 
 //htmlエンコード
 function escapeHtml(content) {
@@ -16,9 +25,13 @@ function escapeHtml(content) {
 	　"<": "&lt;",
 	　">": "&gt;"
   };
-  return content.replace(/[&"<>]/g, function(match) {
-  　return TABLE_FOR_ESCAPE_HTML[match];
-  });
+  if (typeof content === "undefined"){ //undefinedなら空文字を返却
+    return '';
+  }else{
+    return content.replace(/[&"<>]/g, function(match) {
+      return TABLE_FOR_ESCAPE_HTML[match];
+    });
+  }
 }
 
 //RFC3986 に従ったURLエンコード処理

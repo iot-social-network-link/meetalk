@@ -83,14 +83,18 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
 
   var room_name = 'room' + (s_roomid).toString();
 
+  //sessionStorageクリア
+  clearSessionStorage();
+
+  mlt_debug = (DEBUG_FLG) ? 2 : 0;
   multiparty = new MultiParty( {
-	  //"key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
+    //"key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
     // "key": "50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d",
     "key": gon.const.multi_party_key,
 	  "reliable": true,
 	  "room": room_name,
     "id": 'meetalkid_' + uid, //skywayでユーザを一位に特定するid?
-	  "debug": 2
+	  "debug": mlt_debug
 	});
   //manage_message(s_name); //チャットしない
   // サーバとpeerに接続
@@ -113,15 +117,26 @@ function message_start(s_name, s_roomid) {
 
 // Exit機能(skyway)
 function exit_video_chat(){
-  console.log("Exit!!");
+  logging_debug("Exit!!");
   multiparty.close();
   // 4. delete_user();
   location.href=TOP_URL; //redirect to top.
 }
 
+// ブラウザのsessionStorageを削除する関数
+function clearSessionStorage(){
+  //sessionStorage
+  var storage = sessionStorage;
+  logging_debug('sessionStorage:');
+  logging_debug(storage);
+  storage.clear();
+  logging_debug(storage);
+}
+
 // Exit機能
 function exit(){
-  console.log("Exit!!");
+  logging_debug("Exit!!");
+  clearSessionStorage();
   location.href=TOP_URL; //redirect to top.
 }
 
@@ -130,10 +145,10 @@ function onVideoChange(){
   video_check_on = document.video_change_form.video_on.checked;
 
   if (video_check_on == true){
-    console.log("映像ON");
+    logging_debug("映像ON");
     multiparty.unmute({"video": true});
   } else {
-    console.log("映像OFF");
+    logging_debug("映像OFF");
     multiparty.mute({"video": true});
   }
 }
@@ -143,10 +158,10 @@ function onAudioChange(){
   audio_check_on = document.audio_change_form.audio_on.checked;
 
   if (audio_check_on == true){
-    console.log("音声ON");
+    logging_debug("音声ON");
     multiparty.unmute({"audio": true});
   } else {
-    console.log("音声OFF");
+    logging_debug("音声OFF");
     multiparty.mute({"audio": true});
   }
 }

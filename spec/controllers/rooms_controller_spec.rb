@@ -1,3 +1,5 @@
+# coding: utf-8
+
 require 'rails_helper'
 
 RSpec.describe RoomsController, type: :controller do
@@ -35,7 +37,12 @@ RSpec.describe RoomsController, type: :controller do
         it "room dbの値が更新されること" do
           request
           @room.reload
-          expect(@room.male).to eq(2)
+          expect(@room.male).to eq 2
+        end
+
+        it "room statusが1であること" do
+          request
+          expect(@room.status).to eq 1
         end
 
         it "room dbに新規追加されないこと" do
@@ -44,8 +51,14 @@ RSpec.describe RoomsController, type: :controller do
       end
 
       context "roomが満員の場合" do
+        before(:each){ @room = create(:full_room, :with_users) }
+
+        it "room statusが2であること" do
+          request
+          expect(@room.status).to eq 2
+        end
+
         it "room dbに新規追加されること" do
-          create(:full_room)
           expect{ request }.to change(Room, :count).by(1)
         end
       end
@@ -64,7 +77,8 @@ RSpec.describe RoomsController, type: :controller do
 
   describe "user access" do
     before :each do
-      @user = create(:user)
+      room = create(:room, :with_users)
+      @user = room.users.first
       session[:user_id] = @user.id
     end
 
@@ -89,12 +103,18 @@ RSpec.describe RoomsController, type: :controller do
       let(:request){ get :vote }
       it_behaves_like 'assigns the requested user to @user'
 
-      context "roomが満員の場合" do
+      context "roomが満員かつroom statusが2の場合" do
         before :each do
           ['male', 'female', 'female'].each do |gender|
             create(:user, room_id: @user.room_id, gender: gender)
           end
           request
+        end
+
+        it "room statusが3に変更されること" do
+          request
+          @user.room.reload
+          expect(@user.room.status).to eq 3
         end
 
         it ":vote templateがレンダリングされること" do
@@ -111,6 +131,10 @@ RSpec.describe RoomsController, type: :controller do
       end
 
       context "roomが満員でない場合" do
+        it_behaves_like 'redirects to room#index'
+      end
+
+      context "room statusが1の場合" do
         it_behaves_like 'redirects to room#index'
       end
     end

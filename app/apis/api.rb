@@ -70,10 +70,14 @@ class API < Grape::API
     end
  	  get ':room_id' do
       room = Room.find_by_id(params[:room_id])
-      if room.nil?
+      return { result: false } if room.nil?
+      case room.status
+      when 1
         return { result: false }
+      when 2, 3
+        return { result: true }
       else
-        return { result: room.status }
+        return { result: false }
       end
   	end
   end
