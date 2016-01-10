@@ -4,11 +4,12 @@
  * ----------------------------------------------------------------- */
 
 //jsで利用する定数
-const URI_SCHEME = 'http://'; 
+//const URI_SCHEME = 'http://';
 //'https:'; // 本番サーバではこちらを使う
-const TOP_URL   = URI_SCHEME + location.host + '/'; // localhost
-const VOTE_URL  = TOP_URL + 'vote/';
-const DEBUG_FLG = true; // true で、ログ表示
+//const TOP_URL   = URI_SCHEME + location.host + '/'; // localhost
+const TOP_URL   = '/'; // localhost
+const VOTE_URL  = '/vote/';
+const DEBUG_FLG = gon.const.debug_flag; // true で、ログ表示
 
 //debug flgに応じてlogging
 function logging_debug(obj){
