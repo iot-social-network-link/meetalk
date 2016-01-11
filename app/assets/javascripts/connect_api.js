@@ -5,9 +5,9 @@
 //追加するDOMを、性別によって切り替える
 function selectElm_wGender(s_gender){
   if (s_gender == 'male'){
-    return "#streams-male"
+    return "#streams-male";
   }else{
-	　return "#streams-female"
+	　return "#streams-female";
   }
 }
 //API取得したuinfoのうち、追加されたpeer(wid)の情報を選択
