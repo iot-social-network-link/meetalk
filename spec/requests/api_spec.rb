@@ -83,7 +83,7 @@ RSpec.describe 'API', type: :request do
     end
   end
 
-  describe "PUT /api/v1/user/:user_id" do
+  describe "PUT /api/v1/user/:user_id, :window_id" do
     let(:request){ put "/api/v1/user/#{user_id}.json", {window_id: 'test2'} }
 
     context "userが存在する場合" do
@@ -106,11 +106,13 @@ RSpec.describe 'API', type: :request do
     end
   end
 
-  describe "PUT /api/v1/user_id/:user_id" do
-    let(:request){ put "/api/v1/user_id/#{user_id}.json?" }
+  describe "PUT /api/v1/leaving_user, :window_id" do
+    let(:request){ put "/api/v1/leaving_user.json", {window_id: window_id} }
 
     context "userが存在する場合" do
       let(:user){ create(:room, :with_users).users.first }
+      let(:window_id){ user.window_id }
+      before(:each){ user.update(window_id: 'test2') }
 
       it_behaves_like 'check http_status'
       it_behaves_like 'return true'
@@ -120,15 +122,26 @@ RSpec.describe 'API', type: :request do
         expect(user.status).to eq be_falsey
       end
 
-      it "roomの人数が変更されること" do
-        request
-        expect(room.male).to eq 0
-        expect(room.female).to eq 0
+      context "user statusがtrueの場合" do
+        it "roomの人数が変更されること" do
+          request
+          expect(room.male).to eq 0
+          expect(room.female).to eq 0
+        end
+      end
+
+      context "user statusがfalseの場合" do
+        it "roomの人数が変更されないこと" do
+          user.update(status: false)
+          request
+          expect(room.male).to eq 1
+          expect(room.female).to eq 0
+        end
       end
     end
 
     context "userが存在しない場合" do
-      let(:user_id){ 99 }
+      let(:window_id){ 'test2' }
       it_behaves_like 'check http_status'
       it_behaves_like 'return false'
     end
