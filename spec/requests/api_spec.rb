@@ -110,34 +110,65 @@ RSpec.describe 'API', type: :request do
     let(:request){ put "/api/v1/leaving_user.json", {window_id: window_id} }
 
     context "userが存在する場合" do
-      let(:user){ create(:room, :with_users).users.first }
+      let(:room){ create(:room, :with_users) }
+      let(:user){ room.users.first }
       let(:window_id){ user.window_id }
-      before(:each){ user.update(window_id: 'test2') }
+      before(:each) do
+        user.update(window_id: 'test2')
+        create(:user, room_id: room.id)
+      end
 
       it_behaves_like 'check http_status'
       it_behaves_like 'return true'
 
       it "user statusがfalseに変更されること" do
         request
-        expect(user.status).to eq be_falsey
+        user.reload
+        expect(user.status).to be_falsey
       end
 
       context "user statusがtrueの場合" do
-        it "roomの人数が変更されること" do
+        it "roomの人数が変更されること(male: 2->1)" do
           request
-          expect(room.male).to eq 0
+          room.reload
+          expect(room.male).to eq 1
           expect(room.female).to eq 0
         end
       end
 
       context "user statusがfalseの場合" do
-        it "roomの人数が変更されないこと" do
+        it "roomの人数が変更されないこと(male: 1->1)" do
           user.update(status: false)
           request
+          room.reload
           expect(room.male).to eq 1
           expect(room.female).to eq 0
         end
       end
+
+      context "apiを3回叩いた場合" do
+        it "1回目はroomの人数が変更されること(male: 2->1)" do
+          request
+          room.reload
+          expect(room.male).to eq 1
+          expect(room.female).to eq 0
+        end
+
+        it "2回目はroomの人数が変更されないこと(male: 1->1)" do
+          request
+          room.reload
+          expect(room.male).to eq 1
+          expect(room.female).to eq 0
+        end
+
+        it "3回目はroomの人数が変更されないこと(male: 1->1)" do
+          request
+          room.reload
+          expect(room.male).to eq 1
+          expect(room.female).to eq 0
+        end
+      end
+
     end
 
     context "userが存在しない場合" do
