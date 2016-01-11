@@ -43,12 +43,12 @@ function manage_mediasteam(s_roomid, s_name, s_gender, uid) {
     peer_myms(s_roomid, video); //他人入室時の処理
 	}).on('ms_close', function(peer_id) {
 	  // TODO
-	  // 対象のユーザ情報を削除 wid
-	  // 4. delete_user(); //ブラウザを閉じた場合はexit関数で処理されないため必要
+    // 切断したpeerのユーザステータスをfalseにするAPIをリクエスト
+    delete_user(peer_id);
 
 	  // peerが切れたら、対象のvideoノードを削除する
 	  $("#"+peer_id).remove();
-	})
+	});
 
   // Error handling:★ユーザに何を表示すべきか要検討
   multiparty.on('error', function(err) {
@@ -88,8 +88,6 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
 
   mlt_debug = (DEBUG_FLG) ? 2 : 0;
   multiparty = new MultiParty( {
-    //"key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
-    // "key": "50ceb8ca-2920-42a1-a3ae-edfa39d3ab3d",
     "key": gon.const.multi_party_key,
 	  "reliable": true,
 	  "room": room_name,
@@ -105,7 +103,6 @@ function video_chat_start(s_roomid, s_name, s_gender, uid) {
 function message_start(s_name, s_roomid) {
   multiparty = new MultiParty( {
     "key": gon.const.multi_party_key,
-	  // "key": "44ed614d-25eb-4a1f-b7a8-a47acd9f7595",
 	  "reliable": true,
 	  "room_id": s_roomid,
 	  "debug": 2
@@ -144,7 +141,7 @@ function exit(){
 function onVideoChange(){
   video_check_on = document.video_change_form.video_on.checked;
 
-  if (video_check_on == true){
+  if (video_check_on === true){
     logging_debug("映像ON");
     multiparty.unmute({"video": true});
   } else {
@@ -157,7 +154,7 @@ function onVideoChange(){
 function onAudioChange(){
   audio_check_on = document.audio_change_form.audio_on.checked;
 
-  if (audio_check_on == true){
+  if (audio_check_on === true){
     logging_debug("音声ON");
     multiparty.unmute({"audio": true});
   } else {

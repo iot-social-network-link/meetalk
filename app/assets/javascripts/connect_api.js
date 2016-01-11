@@ -103,7 +103,26 @@ function check_fullroom(roomid){
 function regist_windowid(userid, wid){
   // APIにアクセス
   var api_url = '/api/v1/user/' + userid + '.json';
-  console.log('api connect: url=' + api_url + 'with wid: ' + wid);
+  console.log('api connect: url=' + api_url + ' with wid: ' + wid);
+  $.ajax({
+	  type: "PUT",
+	  url: api_url,
+	  data: "window_id=" + wid,
+    dataType: "json",
+	  //通信成功時
+	  success: function(resp){
+		　console.log('result: ' + resp.result + '  from:' + api_url);
+	  }
+	});
+}
+
+// ------------------------------------
+// 4. Delete API
+// ------------------------------------
+function delete_user(wid){
+  // APIにアクセス
+  var api_url = '/api/v1/leaving_user';
+  console.log('api connect: url=' + api_url + ' with wid: ' + wid);
   $.ajax({
 	  type: "PUT",
 	  url: api_url,
