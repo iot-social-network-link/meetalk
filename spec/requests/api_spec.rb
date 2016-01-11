@@ -116,56 +116,60 @@ RSpec.describe 'API', type: :request do
       before(:each) do
         user.update(window_id: 'test2')
         create(:user, room_id: room.id)
+        room.reload
       end
 
       it_behaves_like 'check http_status'
       it_behaves_like 'return true'
 
-      it "user statusがfalseに変更されること" do
-        request
-        user.reload
-        expect(user.status).to be_falsey
-      end
-
       context "user statusがtrueの場合" do
+        it "user statusがfalseに変更されること" do
+          expect{
+            request
+            user.reload
+          }.to change{ user.status }.from(true).to(false)
+        end
+
         it "roomの人数が変更されること(male: 2->1)" do
-          request
-          room.reload
-          expect(room.male).to eq 1
-          expect(room.female).to eq 0
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.from(2).to(1).and change{ room.female }.by(0)
         end
       end
 
       context "user statusがfalseの場合" do
+        before(:each){ user.update(status: false) }
+
+        it "user statusが変更されないこと" do
+          expect{
+            request
+            user.reload
+          }.to_not change{ user.status }
+        end
+
         it "roomの人数が変更されないこと(male: 1->1)" do
-          user.update(status: false)
-          request
-          room.reload
-          expect(room.male).to eq 1
-          expect(room.female).to eq 0
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
         end
       end
 
       context "apiを3回叩いた場合" do
-        it "1回目はroomの人数が変更されること(male: 2->1)" do
-          request
-          room.reload
-          expect(room.male).to eq 1
-          expect(room.female).to eq 0
-        end
-
-        it "2回目はroomの人数が変更されないこと(male: 1->1)" do
-          request
-          room.reload
-          expect(room.male).to eq 1
-          expect(room.female).to eq 0
-        end
-
-        it "3回目はroomの人数が変更されないこと(male: 1->1)" do
-          request
-          room.reload
-          expect(room.male).to eq 1
-          expect(room.female).to eq 0
+        it "1回目のみroomの人数が変更されること(male: 2->1)" do
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.from(2).to(1).and change{ room.female }.by(0)
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
         end
       end
 
