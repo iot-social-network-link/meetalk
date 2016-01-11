@@ -62,6 +62,23 @@ class API < Grape::API
     end
   end
 
+  resource "leaving_user" do
+    desc "change to invalids status with User"
+    # Leaving User Full API: 
+    # $ curl -X PUT curl -X PUT http://localhost:3000/api/v1/leaving_user -d "window_id=:window_id"
+    params do
+      requires :window_id, type: String
+    end
+
+    put do
+      user = User.find_by(window_id: params[:window_id])
+      if user.present?
+        return { result: true } if user.update( :status => false )
+      end
+      return { result: false }
+    end
+  end
+
   resource "room_full" do
 	  desc "returns True when four member joined in the room"
     # Room Full API: http://localhost:3000/api/v1/room_full/:room_id
