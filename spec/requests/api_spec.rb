@@ -83,7 +83,7 @@ RSpec.describe 'API', type: :request do
     end
   end
 
-  describe "PUT /api/v1/user/:user_id" do
+  describe "PUT /api/v1/user/:user_id, :window_id" do
     let(:request){ put "/api/v1/user/#{user_id}.json", {window_id: 'test2'} }
 
     context "userが存在する場合" do
@@ -101,6 +101,82 @@ RSpec.describe 'API', type: :request do
 
     context "userが存在しない場合" do
       let(:user_id){ 99 }
+      it_behaves_like 'check http_status'
+      it_behaves_like 'return false'
+    end
+  end
+
+  describe "PUT /api/v1/leaving_user, :window_id" do
+    let(:request){ put "/api/v1/leaving_user.json", {window_id: window_id} }
+
+    context "userが存在する場合" do
+      let(:room){ create(:room, :with_users) }
+      let(:user){ room.users.first }
+      let(:window_id){ user.window_id }
+      before(:each) do
+        user.update(window_id: 'test2')
+        create(:user, room_id: room.id)
+        room.reload
+      end
+
+      it_behaves_like 'check http_status'
+      it_behaves_like 'return true'
+
+      context "user statusがtrueの場合" do
+        it "user statusがfalseに変更されること" do
+          expect{
+            request
+            user.reload
+          }.to change{ user.status }.from(true).to(false)
+        end
+
+        it "roomの人数が変更されること(male: 2->1)" do
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.from(2).to(1).and change{ room.female }.by(0)
+        end
+      end
+
+      context "user statusがfalseの場合" do
+        before(:each){ user.update(status: false) }
+
+        it "user statusが変更されないこと" do
+          expect{
+            request
+            user.reload
+          }.to_not change{ user.status }
+        end
+
+        it "roomの人数が変更されないこと(male: 1->1)" do
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
+        end
+      end
+
+      context "apiを3回叩いた場合" do
+        it "1回目のみroomの人数が変更されること(male: 2->1)" do
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.from(2).to(1).and change{ room.female }.by(0)
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
+          expect{
+            request
+            room.reload
+          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
+        end
+      end
+
+    end
+
+    context "userが存在しない場合" do
+      let(:window_id){ 'test2' }
       it_behaves_like 'check http_status'
       it_behaves_like 'return false'
     end
