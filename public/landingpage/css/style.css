@@ -411,6 +411,7 @@ input:focus::-webkit-input-placeholder {
 
 header {
     padding: 104px 0;
+    padding-left: 50px;
     background: url(../images/party-people.JPG) no-repeat 50% 50%;
     font: 24px/36px "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: black;
@@ -472,7 +473,8 @@ header .buttons-wrapper .button-stripe {
 
 .header-wrapper {
     padding-top: 87px;
-    max-width: 655px;
+/*    max-width: 655px; */
+    height: 450px;
 }
 
 /* footer --------------------------  */
