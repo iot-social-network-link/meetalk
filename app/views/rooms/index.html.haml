@@ -12,12 +12,9 @@
           %span
             2文字以上10文字以内で入力してね
           .form-group 
-            %label.radio-inline
-              = f.radio_button 'gender', 'male',{ :checked => true }
-              .fa.fa-male.fa-5x.btn-primary
-            %label.radio-inline
-              = f.radio_button 'gender', 'female'
-              .fa.fa-female.fa-5x.btn-danger
+            %img.radio-group{id:'male', src:'assets/male.png', width:70, height:70}
+            %img.radio-group{id:'female', src:'assets/female.png', width:70, height:70}
+            %input{name:'user[gender]', type:'hidden'}
             %br
             %br
             = f.submit "CAST NOW", id: 'submit', class: 'btn btn-lg btn-success btn-block'
@@ -25,6 +22,7 @@
     $(function(){
       view.animatePanel();
       view.checkForm();
+      view.makeRadioBtn();
     });
 
   var view = function (){};
@@ -50,6 +48,27 @@
       }else{
         $('#submit').prop('disabled', false);
       }
+    });
+  }
+
+  view.makeRadioBtn = function() {
+    $(".radio-group").click(function(){
+      if(this.id=="male"){
+        $("#male").attr("src", "assets/male_selected.png");
+        $("#female").attr("src", "assets/female.png");
+        $("input[name='user[gender]']").attr({
+          value: "male",
+          id: "user_gender_male"
+        });
+      } else if(this.id=="female"){
+        $("#male").attr("src", "assets/male.png");
+        $("#female").attr("src", "assets/female_selected.png");
+        $("input[name='user[gender]']").attr({
+          value: "female",
+          id: "user_gender_female"
+        });
+      }
+
     });
   }
   
