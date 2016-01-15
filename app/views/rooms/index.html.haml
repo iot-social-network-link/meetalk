@@ -8,7 +8,7 @@
             %p= msg
         =form_for @user, :url => { :action => 'casting' } do |f|
           = f.label :name, '今すぐトークを始めよう！'
-          = f.text_field :name, class: 'form-control', placeholder: 'ニックネーム'
+          = f.text_field :name, class: 'form-control', placeholder: 'ニックネーム', maxlength: '10'
           %span
             2文字以上10文字以内で入力してね
           .form-group 
