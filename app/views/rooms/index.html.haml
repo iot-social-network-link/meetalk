@@ -43,14 +43,24 @@
     var test = $('#submit').prop('disabled', true);
 
     $('#user_name').on('keydown keyup keypress change', function(e){
-      if ($(this).val().length < 2){
-        $('#submit').prop('disabled', true);
-      }else{
+      if ($(this).val().length >= 2 && $("input[name='user[gender]']").val()){
         $('#submit').prop('disabled', false);
+      }else{
+        $('#submit').prop('disabled', true);
+      }
+    });
+    $(".radio-group").on('click', function(e){
+      if ($('#user_name').val().length >= 2){
+        $('#submit').prop('disabled', false);
+      }else{
+        $('#submit').prop('disabled', true);
       }
     });
   }
 
+  //-----------------------------------
+  // 性別選択ボタンへの属性付与
+  //-----------------------------------
   view.makeRadioBtn = function() {
     $(".radio-group").click(function(){
       if(this.id=="male"){
