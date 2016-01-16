@@ -81,5 +81,12 @@ html, body {
     box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
 .form-group {
-  padding: 20px;
+    padding: 20px;
+}
+.logo {
+    width: 288px;
+    height: 62px;
+    background: url(meety01.png) no-repeat;
+    left: 50%;
+    margin: 0 auto;  
 }
