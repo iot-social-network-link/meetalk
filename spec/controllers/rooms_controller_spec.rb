@@ -31,13 +31,14 @@ RSpec.describe RoomsController, type: :controller do
         expect(response).to redirect_to room_path
       end
 
-      context "roomが満員でない場合" do
+      context "statusが1かつ満員でないroomがある場合" do
         before(:each){ @room = create(:room, :with_users, male: 1, female: 0) }
 
         it "room dbの値が更新されること" do
-          request
-          @room.reload
-          expect(@room.male).to eq 2
+          expect{ request }.to change{
+            @room.reload
+            @room.male
+          }.from(1).to(2)
         end
 
         it "room statusが1であること" do
@@ -50,7 +51,14 @@ RSpec.describe RoomsController, type: :controller do
         end
       end
 
-      context "roomが満員の場合" do
+      context "statusが2であるroomがある場合" do
+        it "room dbに新規追加されること" do
+          create(:room, :with_users, male: 1, female: 0, status: 2)
+          expect{ request }.to change(Room, :count).by(1)
+        end
+      end
+
+      context "満員のroomがある場合" do
         before(:each){ @room = create(:full_room, :with_users) }
 
         it "room statusが2であること" do
