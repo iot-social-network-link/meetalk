@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
-  before_action :set_user, only: [:room, :vote, :wait, :matching, :message]
-  before_action :set_js_const, only: [:index, :room, :vote, :message]
+  before_action :set_user, only: [:room, :vote, :wait, :message]
+  before_action :set_js_const, only: [:index, :room, :vote, :wait, :message]
 
   # GET /
   def index
@@ -23,7 +23,6 @@ class RoomsController < ApplicationController
 
   # GET /room
   def room
-    gon.user = @user
   end
 
   # GET /vote
@@ -46,13 +45,13 @@ class RoomsController < ApplicationController
 
   # GET /message/:id
   def message
-    gon.user = @user
     gon.room_id = params[:id]
   end
 
   private
   def set_user
     @user ||= User.find_by_id(session[:user_id])
+    gon.user = @user
     redirect_to :action => "index" if @user.nil? || !@user.status
   end
 
