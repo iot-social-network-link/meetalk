@@ -52,3 +52,128 @@ body {
 #exit_test{
   font-size: 20px;
 }
+/***************/
+/*   wait画面  */
+/***************/
+span.loading {
+    position: relative;
+    display: inline-block;
+    width: 50px; /*diameter*/
+    height: 50px;
+    margin: 0 10px;
+}
+span.loading:before, span.loading:after,
+span.loading > span:first-child, span.loading > span:first-child:before, span.loading > span:first-child:after,
+span.loading > span:last-child, span.loading > span:last-child:before, span.loading > span:last-child:after {
+    position: absolute;
+    display: inline-block;
+    content: " ";
+    width: 6px; /*width*/
+    height: 6px;
+    border-radius: 3px 3px; /*{width/2}px {width/2}px*/
+    background-color: #000;
+    -moz-animation: rotating 0.8s linear infinite;
+    -webkit-animation: rotating 0.8s linear infinite;
+    -o-animation: rotating 0.8s linear infinite;
+    -ms-animation: rotating 0.8s linear infinite;
+}
+    span.loading:before {
+        left: 50%;
+        top: 0;
+        margin-left: -3px; /*{width/2}px*/
+
+    }
+    span.loading:after {
+        left: 50%;
+        bottom: 0;
+        margin-left: -3px; /*{width/2}px*/
+        -moz-animation-delay: 0.4s;
+        -webkit--animation-delay: 0.4s;
+        -o-animation-delay: 0.4s;
+        -ms-animation-delay: 0.4s;
+    }
+
+    span.loading > span:first-child {
+        left: 0;
+        top: 50%;
+        margin-top: -3px; /*{width/2}px*/
+        -moz-animation-delay: 0.6s;
+        -webkit--animation-delay: 0.6s;
+        -o-animation-delay: 0.6s;
+        -ms-animation-delay: 0.6s;
+    }
+    span.loading > span:first-child:before {
+        left: 7.3px; /*1 {diameter*0.146}px = {(diameter/2)*(1-1/sqrt(2))}px*/
+        top: 14.7px; /*2 {(diameter*0.354-width/2}px = {(diameter/2)*(1/sqrt(2))-width/2}px*/
+        -moz-animation-delay: 0.5s;
+        -webkit--animation-delay: 0.5s;
+        -o-animation-delay: 0.5s;
+        -ms-animation-delay: 0.5s;
+    }
+    span.loading > span:first-child:after {
+        left: 7.3px; /*1*/
+        bottom: 14.7px; /*2*/
+        -moz-animation-delay: 0.7s;
+        -webkit--animation-delay: 0.7s;
+        -o-animation-delay: 0.7s;
+        -ms-animation-delay: 0.7s;
+    }
+
+    span.loading > span:last-child {
+        right: 0;
+        top: 50%;
+        margin-top: -3px; /*{width/2}px*/
+        -moz-animation-delay: 0.2s;
+        -webkit--animation-delay: 0.2s;
+        -o-animation-delay: 0.2s;
+        -ms-animation-delay: 0.2s;
+    }
+    span.loading > span:last-child:before {
+        right: 7.3px; /*1*/
+        top: 14.7px; /*2*/
+        -moz-animation-delay: 0.3s;
+        -webkit--animation-delay: 0.3s;
+        -o-animation-delay: 0.3s;
+        -ms-animation-delay: 0.3s;
+    }
+    span.loading > span:last-child:after {
+        right: 7.3px; /*1*/
+        bottom: 14.7px; /*2*/
+        -moz-animation-delay: 0.1s;
+        -webkit--animation-delay: 0.1s;
+        -o-animation-delay: 0.1s;
+        -ms-animation-delay: 0.1s;
+    }
+
+    @-moz-keyframes rotating {
+        0% {
+            background-color: #fff;
+        }
+        100% {
+            background-color: #000;
+        }
+    }
+    @-webkit-keyframes rotating {
+        0% {
+            background-color: #fff;
+        }
+        100% {
+            background-color: #000;
+        }
+    }
+    @-o-keyframes rotating {
+        0% {
+            background-color: #fff;
+        }
+        100% {
+            background-color: #000;
+        }
+    }
+    @-ms-keyframes rotating {
+        0% {
+            background-color: #fff;
+        }
+        100% {
+            background-color: #000;
+        }
+    }
