@@ -26,11 +26,11 @@
   // 現在の状態取得ポーリング
   //-----------------------------------
   console.log("ユーザーID：" + gon.user.id);
-//  var wait_flag = 1;
+  //var wait_flag = 1;
   setInterval(function(){
     $.ajax({
       type: "GET",
-      url: "http://localhost:3000/api/v1/vote/",
+      url: "/api/v1/vote/",
       data: gon.user.id,
       success: function(res){
         console.log(res);
