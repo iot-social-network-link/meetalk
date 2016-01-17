@@ -162,4 +162,53 @@ RSpec.describe 'API', type: :request do
       it_behaves_like 'return false'
     end
   end
+
+  describe "PUT /api/v1/vote, :user_id" do
+    let(:request){ get "/api/v1/vote/#{user_id}.json" }
+
+    context "userが存在する場合" do
+      let(:user){ create(:user) }
+      let(:user_id){ user.id }
+      before(:each){ create(:match, user_id: user_id, vote_id: 10 ) }
+
+      it_behaves_like 'check http_status'
+
+      context "matchした場合(1->10, 10->1)" do
+        before :each do
+          @match2 = create(:match, user_id: 10, vote_id: user_id )
+          request
+        end
+
+        it "matchを返すこと" do
+          expect(json['result']).to eq 'match'
+        end
+
+        it "idの大きいuser(id:10)のroom_idを返すこと" do
+          expect(json['room_id']).to eq @match2.room_id
+        end
+      end
+
+      context "unmatchの場合" do
+        it "unmatchを返すこと" do
+          create(:match, user_id: 10, vote_id: 99 )
+          request
+          expect(json['result']).to eq 'unmatch'
+        end
+      end
+
+      context "waitの場合" do
+        it "waitを返すこと" do
+          request
+          expect(json['result']).to eq 'wait'
+        end
+      end
+    end
+
+    context "userが存在しない場合" do
+      let(:user_id){ 99 }
+      it_behaves_like 'check http_status'
+      it_behaves_like 'return false'
+    end
+  end
+
 end

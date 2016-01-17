@@ -155,46 +155,49 @@ RSpec.describe RoomsController, type: :controller do
         expect{ request }.to change(Match, :count).by(1)
       end
 
-      it "room#matchingにリダイレクトされること" do
+      # it "room#matchingにリダイレクトされること" do
+      #   request
+      #   expect(response).to redirect_to matching_path
+      # end
+
+      it ":wait templateがレンダリングされること" do
         request
-        expect(response).to redirect_to matching_path
+        expect(response).to render_template :wait
       end
-
     end
 
-    describe 'GET #matching' do
-      let(:request){ get :matching }
-      before(:each){ create(:match, user_id: @user.id, vote_id: 10 ) }
-      it_behaves_like 'assigns the requested user to @user'
-
-      context "matchした場合(1->10, 10->1)" do
-        before :each do
-          @match2 = create(:match, user_id: 10, vote_id: @user.id )
-          request
-        end
-
-        it "idの大きいuser(id:10)のroom_idが採用されること" do
-          expect(assigns[:room_id]).to eq @match2.room_id
-        end
-
-        it "room#messageにリダイレクトされること" do
-          expect(response).to redirect_to message_path(assigns[:room_id])
-        end
-      end
-
-      context "matchしなかった場合" do
-        context "1->10, 20->1" do
-          before(:each){ create(:match, user_id: 20, vote_id: @user.id ) }
-          it_behaves_like 'redirects to room#index'
-        end
-
-        context "1->10, 10->99" do
-          before(:each){ create(:match, user_id: 10, vote_id: 99 ) }
-          it_behaves_like 'redirects to room#index'
-        end
-      end
-
-    end
+    # describe 'GET #matching' do
+    #   let(:request){ get :matching }
+    #   before(:each){ create(:match, user_id: @user.id, vote_id: 10 ) }
+    #   it_behaves_like 'assigns the requested user to @user'
+    #
+    #   context "matchした場合(1->10, 10->1)" do
+    #     before :each do
+    #       @match2 = create(:match, user_id: 10, vote_id: @user.id )
+    #       request
+    #     end
+    #
+    #     it "idの大きいuser(id:10)のroom_idが採用されること" do
+    #       expect(assigns[:room_id]).to eq @match2.room_id
+    #     end
+    #
+    #     it "room#messageにリダイレクトされること" do
+    #       expect(response).to redirect_to message_path(assigns[:room_id])
+    #     end
+    #   end
+    #
+    #   context "matchしなかった場合" do
+    #     context "1->10, 20->1" do
+    #       before(:each){ create(:match, user_id: 20, vote_id: @user.id ) }
+    #       it_behaves_like 'redirects to room#index'
+    #     end
+    #
+    #     context "1->10, 10->99" do
+    #       before(:each){ create(:match, user_id: 10, vote_id: 99 ) }
+    #       it_behaves_like 'redirects to room#index'
+    #     end
+    #   end
+    # end
 
     describe 'GET #message' do
       let(:match){ create(:match) }
@@ -224,10 +227,10 @@ RSpec.describe RoomsController, type: :controller do
       it_behaves_like 'redirects to room#index'
     end
 
-    describe 'GET #matching' do
-      let(:request){ get :matching, candidate: 2 }
-      it_behaves_like 'redirects to room#index'
-    end
+    # describe 'GET #matching' do
+    #   let(:request){ get :matching, candidate: 2 }
+    #   it_behaves_like 'redirects to room#index'
+    # end
 
     describe 'GET #message' do
       let(:request){ post :wait, candidate: 2 }

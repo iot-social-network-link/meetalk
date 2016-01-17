@@ -84,4 +84,18 @@ class API < Grape::API
   	end
   end
 
+  resource "vote" do
+    desc "returns vote status"
+    # Room Full API: http://localhost:3000/api/v1/vote/:user_id
+    params do
+      requires :user_id, type: Integer
+    end
+    get ':user_id' do
+      user = User.find_by_id(params[:user_id])
+      if user.present?
+        return Match.check(user.id)
+      end
+      return { result: false }
+    end
+  end
 end

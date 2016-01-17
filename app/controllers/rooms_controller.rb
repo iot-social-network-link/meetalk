@@ -42,23 +42,6 @@ class RoomsController < ApplicationController
   # POST /wait
   def wait
     Match.create(user_id: @user.id, vote_id: params[:candidate])
-    sleep(Settings.match.vote_time)
-
-    redirect_to :action => "matching"
-  end
-
-  # GET /matching
-  def matching
-    match1 = Match.find_by(user_id: @user.id)
-    match2 = Match.find_by(user_id: match1.vote_id, vote_id: @user.id)
-    if match2.nil?
-      # not match
-      redirect_to :action => "index"
-    else
-      # match
-      @room_id = (match1.user_id > match1.vote_id) ? match1.room_id : match2.room_id
-      redirect_to :action => "message", :id => @room_id
-    end
   end
 
   # GET /message/:id
