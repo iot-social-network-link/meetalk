@@ -15,7 +15,7 @@ view.animatePanel = function(){
 view.checkForm = function() {
   var test = $('#submit').prop('disabled', true);
 
-  $('#user_name').on('keydown keyup keypress change', function(e){
+  $('#user_name').on('keydown keyup keypress change input', function(e){
     if ($(this).val().length >= 2 && $("input[name='user[gender]']").val()){
       $('#submit').prop('disabled', false);
     }else{
