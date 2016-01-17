@@ -84,9 +84,10 @@ html, body {
     padding: 20px;
 }
 .logo {
-    width: 288px;
-    height: 62px;
-    background: url(meety01.png) no-repeat;
+    width: 450px;
+    height: 150px;
+    background: url(meetil.png) no-repeat;
+    background-size: contain;
     left: 50%;
     margin: 0 auto;  
 }

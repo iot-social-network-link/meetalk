@@ -5,7 +5,7 @@ var view = function (){};
 //-----------------------------------
 view.animatePanel = function(){
   $('.panel-animate').animate({
-    'opacity' : '1.0', 'padding-top' : '100px'
+    'opacity' : '1.0', 'padding-top' : '60px'
   },1000);
 }
 
