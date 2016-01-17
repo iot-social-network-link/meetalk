@@ -20,3 +20,34 @@
         = label_tag :candidate, @candidates[1].name
         %br
         = submit_tag "submit"
+
+:javascript
+  //-----------------------------------
+  // 現在の状態取得ポーリング
+  //-----------------------------------
+  console.log("ユーザーID：" + gon.user.id);
+//  var wait_flag = 1;
+  setInterval(function(){
+    $.ajax({
+      type: "GET",
+      url: "http://localhost:3000/api/v1/vote/",
+      data: gon.user.id,
+      success: function(res){
+        console.log(res);
+        if(res.result=="match"){
+          if(res.room_id){
+            console.log("match");
+            location.href = "/message/"+res.room_id;
+          }
+        }else if(res.result=="unmatch"){
+            console.log("unmatch");
+            location.href = "/"
+        }else if(res.result=="wait"){
+            console.log("wait");
+        }  
+      },
+      error: function(e){
+        console.log(e);
+      }
+    });
+  },5000);
