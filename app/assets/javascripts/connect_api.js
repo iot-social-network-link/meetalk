@@ -119,14 +119,14 @@ function regist_windowid(userid, wid){
 // ------------------------------------
 // 4. Delete API
 // ------------------------------------
-function delete_user(wid){
+function delete_user(userid){
   // APIにアクセス
   var api_url = '/api/v1/leaving_user';
-  console.log('api connect: url=' + api_url + ' with wid: ' + wid);
+  console.log('api connect: url=' + api_url + ' with user id: ' + userid);
   $.ajax({
 	  type: "PUT",
 	  url: api_url,
-	  data: "window_id=" + wid,
+	  data: "user_id=" + userid,
     dataType: "json",
 	  //通信成功時
 	  success: function(resp){

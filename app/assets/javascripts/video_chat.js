@@ -43,8 +43,6 @@ function manage_mediasteam(s_roomid, s_name, s_gender, uid) {
     peer_myms(s_roomid, video); //他人入室時の処理
 	}).on('ms_close', function(peer_id) {
 	  // TODO
-    // 切断したpeerのユーザステータスをfalseにするAPIをリクエスト
-    delete_user(peer_id);
 
 	  // peerが切れたら、対象のvideoノードを削除する
 	  $("#"+peer_id).remove();
@@ -116,7 +114,9 @@ function message_start(s_name, s_roomid) {
 function exit_video_chat(){
   logging_debug("Exit!!");
   multiparty.close();
-  // 4. delete_user();
+  // 切断したユーザのステータスをfalseにするAPIをリクエスト
+  delete_user(gon.user.id);
+
   location.href=TOP_URL; //redirect to top.
 }
 
@@ -133,7 +133,6 @@ function clearSessionStorage(){
 // Exit機能
 function exit(){
   logging_debug("Exit!!");
-  clearSessionStorage();
   location.href=TOP_URL; //redirect to top.
 }
 
