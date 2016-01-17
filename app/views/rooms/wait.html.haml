@@ -9,11 +9,20 @@
         %span
 
 :javascript
+  console.log("ユーザーID：" + gon.user.id);
+
+  //-----------------------------------
+  // 最大滞在時間後の遷移
+  //-----------------------------------
+  setTimeout(function(){
+    //アンマッチ表示
+    console.log("timeout_unmatch");
+    location.href = "/"
+  }, gon.const.voting_max);
+
   //-----------------------------------
   // 現在の状態取得ポーリング
   //-----------------------------------
-  console.log("ユーザーID：" + gon.user.id);
-  //var wait_flag = 1;
   setInterval(function(){
     $.ajax({
       type: "GET",
@@ -37,5 +46,5 @@
         console.log(e);
       }
     });
-  }, gon.const.voting_interval);//5000msec
-  //最大滞在時間 : gon.const.voting_max : 60000msec
+  }, gon.const.voting_interval);
+  
