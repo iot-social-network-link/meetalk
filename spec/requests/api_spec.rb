@@ -107,14 +107,13 @@ RSpec.describe 'API', type: :request do
   end
 
   describe "PUT /api/v1/leaving_user, :window_id" do
-    let(:request){ put "/api/v1/leaving_user.json", {window_id: window_id} }
+    let(:request){ put "/api/v1/leaving_user.json", {user_id: user_id} }
 
     context "userが存在する場合" do
       let(:room){ create(:room, :with_users) }
       let(:user){ room.users.first }
-      let(:window_id){ user.window_id }
+      let(:user_id){ user.id }
       before(:each) do
-        user.update(window_id: 'test2')
         create(:user, room_id: room.id)
         room.reload
       end
@@ -155,53 +154,10 @@ RSpec.describe 'API', type: :request do
           }.to change{ room.male }.by(0).and change{ room.female }.by(0)
         end
       end
-
-      context "apiを3回叩いた場合" do
-        it "1回目のみroomの人数が変更されること(male: 2->1)" do
-          expect{
-            request
-            room.reload
-          }.to change{ room.male }.from(2).to(1).and change{ room.female }.by(0)
-          expect{
-            request
-            room.reload
-          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
-          expect{
-            request
-            room.reload
-          }.to change{ room.male }.by(0).and change{ room.female }.by(0)
-        end
-      end
-
     end
 
     context "userが存在しない場合" do
-      let(:window_id){ 'test2' }
-      it_behaves_like 'check http_status'
-      it_behaves_like 'return false'
-    end
-  end
-
-  describe "DELETE /api/v1/window_id/:window_id?room_id=:room_id" do
-    let(:request){ delete "/api/v1/window_id/#{window_id}.json?room_id=#{room_id}" }
-
-    context "userが存在する場合" do
-      let(:user){ create(:room, :with_users).users.first }
-      let(:window_id){ user.window_id }
-      let(:room_id){ user.room_id }
-      before(:each){ user.update(window_id: 'test2') }
-
-      it_behaves_like 'check http_status'
-      it_behaves_like 'return true'
-
-      it "userが削除されること" do
-        expect{ request }.to change(User, :count).by(-1)
-      end
-    end
-
-    context "userが存在しない場合" do
-      let(:window_id){ 'test2' }
-      let(:room_id){ 99 }
+      let(:user_id){ 99 }
       it_behaves_like 'check http_status'
       it_behaves_like 'return false'
     end

@@ -46,32 +46,17 @@ class API < Grape::API
         return user
       end
     end
-
-    desc "deletes User with window_id and room_id"
-    # curl -X DELETE http://localhost:3000/api/v1/window_id/:window_id?room_id=:room_id
-    params do
-      requires :window_id, type: String
-      requires :room_id, type: Integer
-    end
-    delete ':window_id' do
-      user = User.find_by(window_id: params[:window_id], room_id: params[:room_id])
-      if user.present?
-        return { result: true } if User.delete(user.id)
-      end
-      return { result: false }
-    end
   end
 
   resource "leaving_user" do
     desc "change to invalids status with User"
-    # Leaving User Full API: 
-    # $ curl -X PUT curl -X PUT http://localhost:3000/api/v1/leaving_user -d "window_id=:window_id"
+    # $ curl -X PUT curl -X PUT http://localhost:3000/api/v1/leaving_user -d "user_id=:user_id"
     params do
-      requires :window_id, type: String
+      requires :user_id, type: String
     end
 
     put do
-      user = User.find_by(window_id: params[:window_id])
+      user = User.find_by_id params[:user_id]
       if user.present?
         return { result: true } if user.update( :status => false )
       end
