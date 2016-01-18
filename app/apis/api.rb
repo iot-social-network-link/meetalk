@@ -77,7 +77,7 @@ class API < Grape::API
       when 1
         return { result: false }
       when 2, 3
-        return { result: true }
+        return { result: true, time: room.updated_at.to_s }
       else
         return { result: false }
       end
