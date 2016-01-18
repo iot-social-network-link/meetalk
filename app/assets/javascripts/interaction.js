@@ -56,7 +56,7 @@ view.makeRadioBtn = function() {
 }
 
 //-----------------------------------
-// 動画オプション
+// 動画オプション - オーディオON/OFF
 //-----------------------------------
 view.onChangeAudio = function(){
   document.audio_change_form.audio_on.checked = 1;
@@ -76,6 +76,9 @@ view.onChangeAudio = function(){
   });
 }
 
+//-----------------------------------
+// 動画オプション - ビデオON/OFF
+//-----------------------------------
 view.onChangeVideo = function(){
   document.video_change_form.video_on.checked = 1;
   $("#camera-icon").on('click', function(e){
