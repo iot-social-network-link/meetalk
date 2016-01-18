@@ -93,3 +93,20 @@ view.onChangeVideo = function(){
   onVideoChange();
   });
 }
+
+//-----------------------------------
+// マウスオーバー
+//-----------------------------------
+view.onMouseover = function(selector, init, hover){
+  $(function(){
+    $(selector).fadeTo(0, init);
+    $(sselector).hover(
+      function(){
+        $(this).stop().fadeTo("fast", hover);
+      },
+      function(){
+        $(this).stop().fadeTo("fast", init);
+      }
+    );
+  });
+}
