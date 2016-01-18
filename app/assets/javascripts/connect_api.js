@@ -2,6 +2,9 @@
  * APIリクエストなど、通信関連のライブラリ
  *
  * ----------------------------------------------------------------- */
+
+var count_flag = false;
+
 //追加するDOMを、性別によって切り替える
 function selectElm_wGender(s_gender){
   if (s_gender == 'male'){
@@ -91,7 +94,10 @@ function check_fullroom(roomid){
 	  //通信成功時
 	  success: function(resp){
 		　console.log('result: ' + resp.result + '  from:' + api_url);
-		　if (resp.result) { count_timer(); }
+		　if (resp.result && count_flag == false) {
+       count_flag = true;
+       count_timer();
+     }
 		　//var obj = ;
 	  }
 	});
