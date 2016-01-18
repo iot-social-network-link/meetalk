@@ -91,7 +91,7 @@ function check_fullroom(roomid){
 	  //通信成功時
 	  success: function(resp){
 		　console.log('result: ' + resp.result + '  from:' + api_url);
-		　if (resp.result) { display_timer(); }
+		　if (resp.result) { count_timer(); }
 		　//var obj = ;
 	  }
 	});
