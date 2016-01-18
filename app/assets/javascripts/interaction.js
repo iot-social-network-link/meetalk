@@ -35,28 +35,55 @@ view.checkForm = function() {
 // 性別選択ボタンへの属性付与
 //-----------------------------------
 view.makeRadioBtn = function() {
-  $(".radio-group").click(function(){
-    if(this.id=="male"){
-      $("#male").attr("src", "assets/male_selected.png");
-      $("#female").attr("src", "assets/female.png");
-      $("input[name='user[gender]']").attr({
-        value: "male",
-        id: "user_gender_male"
-      });
-    } else if(this.id=="female"){
-      $("#male").attr("src", "assets/male.png");
-      $("#female").attr("src", "assets/female_selected.png");
-      $("input[name='user[gender]']").attr({
-        value: "female",
-        id: "user_gender_female"
-      });
-    }
+  var _initOp = 0.5;
+  var _clickOp = 1.0;
+  var _diffOp = 0.1;
+  var _currentOp = 0.0;
+  var _enterOp = 0.0;
+  var _clickFlag = "";
 
+  $("#male").fadeTo(0, _initOp);
+  $("#female").fadeTo(0, _initOp);
+
+  $(".radio-group").on({
+    'mouseenter':function(e){
+      if(_clickFlag==this.id){
+        _currentOp = _clickOp;
+        _enterOp = _currentOp-_diffOp;
+        $(this).stop().fadeTo("fast", _enterOp);
+      }else{
+        _currentOp = _initOp;
+        _enterOp = _currentOp-_diffOp;
+        $(this).stop().fadeTo("fast", _enterOp);
+      }
+    },
+    'mouseleave':function(e){
+      $(this).stop().fadeTo("fast", _enterOp+_diffOp);
+    },
+    'click':function(e){
+      _enterOp = _clickOp;
+      _clickFlag = this.id;
+      if(this.id=="male"){
+        $("#male").stop().fadeTo("fast", _clickOp);
+        $("#female").stop().fadeTo("fast", _initOp);
+        $("input[name='user[gender]']").attr({
+          value: "male",
+          id: "user_gender_male"
+        });
+      } else if(this.id=="female"){
+        $("#female").stop().fadeTo("fast", _clickOp);
+        $("#male").stop().fadeTo("fast", _initOp);
+        $("input[name='user[gender]']").attr({
+          value: "female",
+          id: "user_gender_female"
+        });
+      }
+    }
   });
 }
 
 //-----------------------------------
-// 動画オプション
+// 動画オプション - オーディオON/OFF
 //-----------------------------------
 view.onChangeAudio = function(){
   document.audio_change_form.audio_on.checked = 1;
@@ -76,6 +103,9 @@ view.onChangeAudio = function(){
   });
 }
 
+//-----------------------------------
+// 動画オプション - ビデオON/OFF
+//-----------------------------------
 view.onChangeVideo = function(){
   document.video_change_form.video_on.checked = 1;
   $("#camera-icon").on('click', function(e){
