@@ -71,9 +71,13 @@ RSpec.describe 'API', type: :request do
     let(:request){ get "/api/v1/room_full/#{room.id}.json" }
 
     context "roomが満員の場合" do
-      let(:room){ create(:full_room) }
+      let(:room){ @room = create(:full_room) }
       it_behaves_like 'check http_status'
       it_behaves_like 'return true'
+      it "roomの更新時間を返すこと" do
+        request
+        expect(json['time']).to eq @room.updated_at.to_s
+      end
     end
 
     context "roomが満員でない場合" do
